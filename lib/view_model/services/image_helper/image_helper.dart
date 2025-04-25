@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ImageHelper {
   static Widget imageOrPlaceholder(File? imagePath, double size) {
@@ -23,8 +24,8 @@ class ImageHelper {
   Future<String?> uploadImageToCloudinary(File image) async {
     try {
       final cloudinary = CloudinaryPublic(
-        'di5cjvaap',
-        'davuzp8d',
+        dotenv.env['CLOUDINARY_CLOUD_NAME']!,
+        dotenv.env['CLOUDINARY_UPLOAD_PRESET']!,
         cache: false,
       );
       final response = await cloudinary.uploadFile(

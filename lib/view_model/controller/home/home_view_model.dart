@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:qr_profile_share/configs/assets/image_assets.dart';
+import 'package:qr_profile_share/model/home/connection_model.dart';
+import 'package:qr_profile_share/model/home/event_model.dart';
+import 'package:qr_profile_share/model/home/smart_feature_model.dart';
+import 'package:qr_profile_share/model/home/template_model.dart';
+
+class HomeViewModel extends ChangeNotifier {
+  final List<SmartFeatureModel> _features = [
+    SmartFeatureModel(
+      icon: Icons.flash_on_outlined,
+      title: 'Auto-Update',
+      description:
+          'Your QR code updates automatically when you change your profile',
+      isEnabled: true,
+    ),
+    SmartFeatureModel(
+      icon: Icons.share_outlined,
+      title: 'NFC Sharing',
+      description: 'Share your contact via tap',
+    ),
+    SmartFeatureModel(
+      icon: Icons.flash_on_outlined,
+      title: 'Auto-Update',
+      description:
+          'Your QR code updates automatically when you change your profile',
+      isEnabled: true,
+    ),
+    SmartFeatureModel(
+      icon: Icons.share_outlined,
+      title: 'NFC Sharing',
+      description: 'Share your contact via tap',
+    ),
+  ];
+
+  List<SmartFeatureModel> get features => _features;
+
+  void toggleFeature(int index) {
+    _features[index].isEnabled = !_features[index].isEnabled;
+    notifyListeners();
+  }
+
+  final List<EventModel> _events = [
+    EventModel(
+      title: 'Tech Conference',
+      date: 'Mar 15',
+      tag: 'Conference',
+      imageUrl:
+          'https://picsum.photos/400/200?1', // Use your asset or network image
+    ),
+    EventModel(
+      title: 'Networking Meetup',
+      date: 'Apr 05',
+      tag: 'Meetup',
+      imageUrl: 'https://picsum.photos/400/200?2',
+    ),
+    EventModel(
+      title: 'Tech Conference',
+      date: 'Mar 15',
+      tag: 'Conference',
+      imageUrl:
+          'https://picsum.photos/400/200?1', // Use your asset or network image
+    ),
+    EventModel(
+      title: 'Networking Meetup',
+      date: 'Apr 05',
+      tag: 'Meetup',
+      imageUrl: 'https://picsum.photos/400/200?2',
+    ),
+  ];
+
+  List<EventModel> get events => _events;
+
+  final List<ConnectionModel> _connections = [
+    ConnectionModel(
+      name: 'Sarah Wilson',
+      role: 'Product Designer',
+      imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg',
+      time: '5m ago',
+      isOnline: true,
+    ),
+    ConnectionModel(
+      name: 'Michael Chen',
+      role: 'Developer',
+      imageUrl: 'https://randomuser.me/api/portraits/men/2.jpg',
+      time: '1h ago',
+    ),
+    ConnectionModel(
+      name: 'Emma Davis',
+      role: 'Marketing',
+      imageUrl: 'https://randomuser.me/api/portraits/women/3.jpg',
+      time: '2h ago',
+    ),
+  ];
+
+  List<ConnectionModel> get connections => _connections;
+
+  final List<TemplateModel> _templates = [
+    TemplateModel(
+      title: 'Tech',
+      description: 'GitHub, Stack Overflow profiles',
+      iconPath: ImageAssets.bookImg, // Replace with your own asset
+    ),
+    TemplateModel(
+      title: 'Creative',
+      description: 'Portfolio links, projects',
+      iconPath: ImageAssets.bookImg, // Replace with your own asset
+    ),
+    TemplateModel(
+      title: 'Tech',
+      description: 'GitHub, Stack Overflow profiles',
+      iconPath: ImageAssets.bookImg, // Replace with your own asset
+    ),
+    TemplateModel(
+      title: 'Creative',
+      description: 'Portfolio links, projects',
+      iconPath: ImageAssets.bookImg, // Replace with your own asset
+    ),
+  ];
+
+  List<TemplateModel> get templates => _templates;
+}

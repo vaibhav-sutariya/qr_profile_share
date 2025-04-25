@@ -1,0 +1,171 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:qr_profile_share/model/scan/qr_model.dart';
+import 'package:qr_profile_share/repository/scan/add_scan_profile_repository.dart';
+import 'package:qr_profile_share/view/scan/widgets/scan_result_dialog.dart';
+import 'package:qr_profile_share/view_model/services/get_data/get_access_token.dart';
+
+class ScanViewModel extends ChangeNotifier {
+  QrModel? _qrModel;
+
+  QrModel? get qrData => _qrModel;
+
+  void setQrData(BuildContext context, String data) {
+    _qrModel = QrModel(scannedData: data);
+    final Map<String, dynamic> decodedData =
+        qrData != null ? jsonDecode(qrData!.scannedData) : {};
+    // getUserProfile(context, decodedData['id']);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ScanResultDialog(
+          data: decodedData,
+          onClose: () {
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
+
+    notifyListeners();
+  }
+
+  void clearData() {
+    _qrModel = null;
+    notifyListeners();
+  }
+
+  bool _isProcessing = false;
+  final ImagePicker _picker = ImagePicker();
+
+  bool get isProcessing => _isProcessing;
+
+  // Original method for camera QR scanning
+  void processCameraQrCode(BuildContext context, String qrData) {
+    log('Scanned Data from Camera: $qrData');
+    setQrData(context, qrData);
+  }
+
+  // Method to handle scanning from gallery
+  Future<void> pickImageAndScan(BuildContext context) async {
+    try {
+      _setProcessing(true);
+
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 100,
+      );
+
+      if (pickedFile == null) {
+        _setProcessing(false);
+        return;
+      }
+
+      final File imageFile = File(pickedFile.path);
+      await _scanQRFromImage(context, imageFile);
+    } catch (e) {
+      _setProcessing(false);
+      _showErrorDialog(context, "Failed to pick image: $e");
+    }
+  }
+
+  // Private method to scan QR from image file
+  Future<void> _scanQRFromImage(BuildContext context, File file) async {
+    try {
+      // Create an InputImage from the file
+      final InputImage inputImage = InputImage.fromFilePath(file.path);
+
+      // Create a barcode scanner
+      final BarcodeScanner barcodeScanner = BarcodeScanner();
+
+      // Process the image
+      final barcodes = await barcodeScanner.processImage(inputImage);
+
+      // Close the detector when done
+      barcodeScanner.close();
+
+      _setProcessing(false);
+
+      if (barcodes.isNotEmpty) {
+        // Get the first barcode found
+        final String? qrData = barcodes.first.rawValue;
+
+        if (qrData != null && qrData.isNotEmpty) {
+          log('QR Data from Image: $qrData');
+          setQrData(context, qrData);
+        } else {
+          _showErrorDialog(context, "No QR code found in the image");
+        }
+      } else {
+        _showErrorDialog(context, "No QR code found in the image");
+      }
+    } catch (e) {
+      _setProcessing(false);
+      _showErrorDialog(context, "Error scanning QR code from image: $e");
+    }
+  }
+
+  // Update processing state and notify listeners
+  void _setProcessing(bool value) {
+    _isProcessing = value;
+    notifyListeners();
+  }
+
+  // Show error dialog helper
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Error'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  bool _addUserProfileLoading = false;
+  bool get adduserProfileLoading => _addUserProfileLoading;
+
+  addUserProfileLoading(bool value) {
+    _addUserProfileLoading = value;
+    notifyListeners();
+  }
+
+  Future<Map<String, dynamic>> addContact(
+    String id,
+    BuildContext context,
+  ) async {
+    try {
+      addUserProfileLoading(true);
+      final data = {"userId": id};
+      log("User ID: $data"); // ✅ Debugging Step
+      final token = await getAccessToken(); // Get the token from storage
+      final response = await AddScanProfileRepository().addContact(
+        jsonEncode(data),
+        token,
+      );
+      log('profile added successfully'); // ✅ Debugging Step
+
+      addUserProfileLoading(false);
+
+      return response;
+    } catch (e) {
+      log("profile add Error: $e"); // Add this log
+      addUserProfileLoading(false);
+      return {"success": false, "message": e.toString()};
+    } finally {
+      addUserProfileLoading(false);
+    }
+  }
+}

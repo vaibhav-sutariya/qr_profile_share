@@ -1,8 +1,11 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppUrl {
   AppUrl._();
 
   // static var baseUrl = 'http://172.21.80.111:8000/v1';
-  static var baseUrl = 'http://localhost:3000/api/v1';
+  // static var baseUrl = 'http://localhost:3000/api/v1';
+  static var baseUrl = dotenv.env['BASE_URL'] ?? 'http://localhost:3000/api/v1';
 
   static var loginApiEndPoint = '$baseUrl/auth/login';
   static var signupApiEndPoint = '$baseUrl/auth/signup';

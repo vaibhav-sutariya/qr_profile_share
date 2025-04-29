@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/view/my_qr/widgets/appbar/qr_mode_toggle.dart';
@@ -8,7 +7,19 @@ class QrAppbarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SlideInDown(
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeIn,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, (1 - value) * -50), // Slide from top
+            child: child,
+          ),
+        );
+      },
       child: Column(
         spacing: 10,
         crossAxisAlignment: CrossAxisAlignment.start,

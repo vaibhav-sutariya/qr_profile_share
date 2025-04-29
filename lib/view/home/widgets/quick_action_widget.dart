@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
@@ -8,7 +7,19 @@ class QuickActionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeInRight(
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 100.0, end: 0.0),
+      duration: Duration(milliseconds: 600),
+
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(value, 0), // X-axis slide
+          child: Opacity(
+            opacity: 1 - (value / 100), // fade in effect
+            child: child,
+          ),
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

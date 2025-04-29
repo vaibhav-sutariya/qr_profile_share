@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/configs/responsive.dart';
@@ -32,7 +31,19 @@ class HomeScreen extends StatelessWidget {
                 floating: true,
                 snap: true,
                 elevation: 0,
-                flexibleSpace: SlideInDown(
+                flexibleSpace: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeIn,
+                  builder: (context, value, child) {
+                    return Opacity(
+                      opacity: value,
+                      child: Transform.translate(
+                        offset: Offset(0, (1 - value) * -50), // Slide from top
+                        child: child,
+                      ),
+                    );
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: AppColors.gradientColor2,

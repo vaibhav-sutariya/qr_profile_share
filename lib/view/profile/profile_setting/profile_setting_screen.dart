@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
@@ -34,16 +33,27 @@ class ProfileSettingScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  for (int i = 0; i < 4; i++)
-                    FadeInRight(
-                      child: Container(
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 100.0, end: 0.0), // Slide from right to left
+            duration: Duration(milliseconds: 500),
+            builder: (context, value, child) {
+              return Transform.translate(
+                offset: Offset(value, 0), // X-axis slide
+                child: Opacity(
+                  opacity: 1 - (value / 100), // fade in effect
+                  child: child,
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    for (int i = 0; i < 4; i++)
+                      Container(
                         margin: const EdgeInsets.only(right: 10),
                         child: ChoiceChip(
                           backgroundColor: AppColors.darkColor.withOpacity(
@@ -70,13 +80,27 @@ class ProfileSettingScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
 
-          Expanded(child: tabs[provider.currentTabIndex]),
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 100.0, end: 0.0),
+            duration: Duration(milliseconds: 700),
+            curve: Curves.easeInOut,
+            builder: (context, value, child) {
+              return Transform.translate(
+                offset: Offset(value, 0), // X-axis slide
+                child: Opacity(
+                  opacity: 1 - (value / 100), // fade in effect
+                  child: child,
+                ),
+              );
+            },
+            child: Expanded(child: tabs[provider.currentTabIndex]),
+          ),
         ],
       ),
     );

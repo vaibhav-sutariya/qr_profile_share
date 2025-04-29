@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -34,14 +33,12 @@ class MyQrScreen extends StatelessWidget {
                     floating: true,
                     snap: true,
                     elevation: 0,
-                    flexibleSpace: SlideInDown(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: AppColors.gradientColor2,
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          ),
+                    flexibleSpace: Container(
+                      decoration: BoxDecoration(
+                        gradient: AppColors.gradientColor2,
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
                         ),
                       ),
                     ),

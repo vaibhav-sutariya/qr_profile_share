@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +12,19 @@ class QrActionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyQrViewModel>(
       builder: (context, qrViewModel, child) {
-        return FadeInRight(
-          delay: const Duration(milliseconds: 100),
+        return TweenAnimationBuilder<double>(
+          tween: Tween(begin: 100.0, end: 0.0),
+          duration: Duration(milliseconds: 500),
+
+          builder: (context, value, child) {
+            return Transform.translate(
+              offset: Offset(value, 0), // X-axis slide
+              child: Opacity(
+                opacity: 1 - (value / 100), // fade in effect
+                child: child,
+              ),
+            );
+          },
 
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

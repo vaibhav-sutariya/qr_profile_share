@@ -60,8 +60,19 @@ class MyQrScreen extends StatelessWidget {
                     SizedBox(height: 30),
                     QrActionWidget(),
                     SizedBox(height: 30),
-                    FadeInRight(
-                      delay: const Duration(milliseconds: 200),
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 100.0, end: 0.0),
+                      duration: Duration(milliseconds: 500),
+
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(-value, 0), // X-axis slide
+                          child: Opacity(
+                            opacity: 1 - (value / 100), // fade in effect
+                            child: child,
+                          ),
+                        );
+                      },
                       child: Text(
                         'QR Code Settings',
                         style: TextStyle(
@@ -74,6 +85,7 @@ class MyQrScreen extends StatelessWidget {
                     SizedBox(height: 20),
 
                     CustomTileWidget(
+                      duration: 500,
                       icon: Icons.access_time,
                       onChanged: (value) {},
                       title: 'Expiration',
@@ -83,6 +95,7 @@ class MyQrScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     CustomTileWidget(
+                      duration: 600,
                       icon: Icons.shield_outlined,
                       onChanged: (value) {},
                       title: 'Privacy Mode',
@@ -92,6 +105,7 @@ class MyQrScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     CustomTileWidget(
+                      duration: 700,
                       icon: Icons.error_outline,
                       onChanged: (value) {
                         viewModel.toggleDynamicQr(value);
@@ -103,6 +117,7 @@ class MyQrScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     CustomTileWidget(
+                      duration: 800,
                       icon: Feather.users,
                       onChanged: (value) {
                         viewModel.toggleNFCSharing(value);

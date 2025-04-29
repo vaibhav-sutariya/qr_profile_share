@@ -14,23 +14,39 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        animationDuration: Duration(milliseconds: 200),
-        backgroundColor: btnColor,
-        minimumSize: Size(double.infinity, 0),
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 100.0, end: 0.0),
+      duration: Duration(milliseconds: 500),
 
-      onPressed: onPress,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(value, 0), // X-axis slide
+          child: Opacity(
+            opacity: 1 - (value / 100), // fade in effect
+            child: child,
+          ),
+        );
+      },
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          animationDuration: Duration(milliseconds: 200),
+          backgroundColor: btnColor,
+          minimumSize: Size(double.infinity, 0),
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
 
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-          color: AppColors.whiteColor,
+        onPressed: onPress,
+
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: AppColors.whiteColor,
+          ),
         ),
       ),
     );

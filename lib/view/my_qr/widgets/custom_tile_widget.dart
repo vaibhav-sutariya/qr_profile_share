@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 
@@ -9,6 +8,7 @@ class CustomTileWidget extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
   final bool isSwitchEnabled;
+  final int? duration;
   const CustomTileWidget({
     super.key,
     required this.icon,
@@ -17,12 +17,25 @@ class CustomTileWidget extends StatelessWidget {
     required this.value,
     required this.onChanged,
     this.isSwitchEnabled = true,
+    this.duration,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FadeInRight(
-      delay: const Duration(milliseconds: 300),
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 100.0, end: 0.0),
+      duration: Duration(milliseconds: duration ?? 500),
+
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(value, 0), // X-axis slide
+          child: Opacity(
+            opacity: 1 - (value / 100), // fade in effect
+            child: child,
+          ),
+        );
+      },
+
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),

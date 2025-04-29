@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/configs/responsive.dart';
@@ -9,22 +8,36 @@ import 'package:qr_profile_share/view_model/controller/profile/user_profile_view
 
 class TopProfileWidget extends StatelessWidget {
   final UserProfileViewModel userProfileViewModel;
+
   const TopProfileWidget({super.key, required this.userProfileViewModel});
 
   @override
   Widget build(BuildContext context) {
     final data = userProfileViewModel.userProfile?.data?.user;
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: AppColors.gradientColor,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeIn,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, (1 - value) * -50), // Slide from top
+            child: child,
+          ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: AppColors.gradientColor,
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
         ),
-      ),
-      child: FadeInDown(
         child: Column(
           children: [
             SizedBox(height: getScreenHeight(context) * 0.05),
@@ -38,7 +51,6 @@ class TopProfileWidget extends StatelessWidget {
               ),
               child: CircleAvatar(
                 radius: 50,
-
                 backgroundImage: NetworkImage(
                   data?.photo ??
                       'https://toppng.com/uploads/preview/male-user-filled-icon-man-icon-115533970576b3erfsss1.png',
@@ -63,16 +75,15 @@ class TopProfileWidget extends StatelessWidget {
               ),
             ),
             Text(
-              data?.company ?? 'User Role',
-              style: TextStyle(
+              data?.company ?? 'Company Name',
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: AppColors.whiteColor,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 10),
-
-            ProfileModeSelector(),
+            const ProfileModeSelector(),
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -94,7 +105,7 @@ class TopProfileWidget extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Divider(color: AppColors.whiteColor.withOpacity(0.5)),
             ),
-            CountsWidget(),
+            const CountsWidget(),
             const SizedBox(height: 10),
           ],
         ),

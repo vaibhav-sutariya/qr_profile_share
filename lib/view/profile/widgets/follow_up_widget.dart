@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
@@ -12,7 +11,18 @@ class FollowUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final followUps = context.watch<UserProfileViewModel>().followUps;
 
-    return FadeInRight(
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 100.0, end: 0.0), // Slide from right to left
+      duration: Duration(milliseconds: 500),
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(value, 0), // X-axis slide
+          child: Opacity(
+            opacity: 1 - (value / 100), // fade in effect
+            child: child,
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(

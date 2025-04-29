@@ -7,6 +7,7 @@ import 'package:qr_profile_share/configs/components/custom_elevated_button.dart'
 import 'package:qr_profile_share/configs/components/custom_password_field.dart';
 import 'package:qr_profile_share/configs/components/custom_text_field.dart';
 import 'package:qr_profile_share/configs/routes/routes_name.dart';
+import 'package:qr_profile_share/configs/utils/utils.dart';
 import 'package:qr_profile_share/view/auth/signup/widgets/pass_req_widget.dart';
 import 'package:qr_profile_share/view/auth/widgets/have_account_text.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/signup_view_model.dart';
@@ -107,6 +108,12 @@ class SignupScreen extends StatelessWidget {
                               spacing: 20,
                               children: [
                                 CustomTextField(
+                                  validator: (value) {
+                                    if (signupViewModel.name.isEmpty) {
+                                      return 'Please enter your name';
+                                    }
+                                    return null;
+                                  },
                                   onChanged:
                                       (value) =>
                                           signupViewModel.updateName(value),
@@ -115,6 +122,12 @@ class SignupScreen extends StatelessWidget {
                                   text: 'Full Name',
                                 ),
                                 CustomTextField(
+                                  validator: (value) {
+                                    if (signupViewModel.email.isEmpty) {
+                                      return 'Please enter your email';
+                                    }
+                                    return null;
+                                  },
                                   onChanged:
                                       (value) =>
                                           signupViewModel.updateEmail(value),
@@ -124,11 +137,25 @@ class SignupScreen extends StatelessWidget {
                                 ),
                                 CustomPasswordField(
                                   hintText: "Password",
+                                  validator: (value) {
+                                    if (signupViewModel.password.isEmpty) {
+                                      return 'Please enter your password';
+                                    }
+                                    return null;
+                                  },
                                   onChanged:
                                       (value) =>
                                           signupViewModel.updatePassword(value),
                                 ),
                                 CustomPasswordField(
+                                  validator: (value) {
+                                    if (signupViewModel
+                                        .confirmPassword
+                                        .isEmpty) {
+                                      return 'Please confirm your password';
+                                    }
+                                    return null;
+                                  },
                                   hintText: "Confirm Password",
                                   onChanged:
                                       (value) => signupViewModel
@@ -240,8 +267,19 @@ class SignupScreen extends StatelessWidget {
                                     : CustomElevatedButton(
                                       text: 'Create Account',
                                       onPress: () {
-                                        signupViewModel.signUpUser(context);
+                                        signupViewModel.isSignUpButtonEnabled
+                                            ? signupViewModel.signUpUser(
+                                              context,
+                                            )
+                                            : Utils.flushBarErrorMessage(
+                                              'All fields are required',
+                                              context,
+                                            );
                                       },
+                                      btnColor:
+                                          signupViewModel.isSignUpButtonEnabled
+                                              ? AppColors.primaryColor
+                                              : AppColors.darkColor,
                                     ),
                                 HaveAccountText(
                                   text: 'Already have an account?',

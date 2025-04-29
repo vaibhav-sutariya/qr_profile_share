@@ -7,6 +7,7 @@ import 'package:qr_profile_share/configs/components/custom_password_field.dart';
 import 'package:qr_profile_share/configs/components/custom_text_field.dart';
 import 'package:qr_profile_share/configs/components/tappable_text.dart';
 import 'package:qr_profile_share/configs/routes/routes_name.dart';
+import 'package:qr_profile_share/configs/utils/utils.dart';
 import 'package:qr_profile_share/view/auth/widgets/have_account_text.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/login_view_model.dart';
 
@@ -175,7 +176,12 @@ class LoginScreen extends StatelessWidget {
 
                                     text: 'Sign In',
                                     onPress: () {
-                                      loginViewModel.login(context);
+                                      loginViewModel.isLoginButtonEnabled
+                                          ? loginViewModel.login(context)
+                                          : Utils.flushBarErrorMessage(
+                                            'All fields are required',
+                                            context,
+                                          );
                                     },
                                   ),
                               HaveAccountText(

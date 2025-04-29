@@ -18,21 +18,25 @@ class SignupViewModel extends ChangeNotifier {
 
   void updateName(String value) {
     _name = value;
+    checkSignUpButtonEnabled();
     notifyListeners();
   }
 
   void updateEmail(String value) {
     _email = value;
+    checkSignUpButtonEnabled();
     notifyListeners();
   }
 
   void updatePassword(String value) {
     _password = value;
+    checkSignUpButtonEnabled();
     notifyListeners();
   }
 
   void updateConfirmPassword(String value) {
     _confirmPassword = value;
+    checkSignUpButtonEnabled();
     notifyListeners();
   }
 
@@ -50,6 +54,8 @@ class SignupViewModel extends ChangeNotifier {
     _email = '';
     _password = '';
     _confirmPassword = '';
+    isSignUpButtonEnabled = false;
+    checkSignUpButtonEnabled();
     notifyListeners();
   }
 
@@ -58,6 +64,23 @@ class SignupViewModel extends ChangeNotifier {
 
   setSignupLoading(bool value) {
     _signupLoading = value;
+    notifyListeners();
+  }
+
+  bool isSignUpButtonEnabled = false;
+
+  void checkSignUpButtonEnabled() {
+    isSignUpButtonEnabled =
+        _name.isNotEmpty &&
+        _email.isNotEmpty &&
+        _password.isNotEmpty &&
+        _confirmPassword.isNotEmpty &&
+        hasMinLength &&
+        hasUppercase &&
+        hasLowercase &&
+        hasNumber &&
+        hasSpecialChar &&
+        passwordsMatch;
     notifyListeners();
   }
 
@@ -91,6 +114,8 @@ class SignupViewModel extends ChangeNotifier {
       setSignupLoading(false);
       return {"success": false, "message": e.toString()};
     } finally {
+      clearFields();
+
       setSignupLoading(false);
     }
   }

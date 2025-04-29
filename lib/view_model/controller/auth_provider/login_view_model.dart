@@ -26,6 +26,8 @@ class LoginViewModel extends ChangeNotifier {
   void clearFields() {
     _email = '';
     _password = '';
+    isLoginButtonEnabled = false;
+    checkLoginButtonEnabled();
     notifyListeners();
   }
 
@@ -83,6 +85,8 @@ class LoginViewModel extends ChangeNotifier {
       );
       return {"success": false, "message": e.toString()};
     } finally {
+      clearFields();
+
       setLoginLoading(false);
     }
   }

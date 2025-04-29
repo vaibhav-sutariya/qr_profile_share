@@ -29,7 +29,6 @@ class SearchBarWidget extends StatelessWidget {
                   );
                 },
                 child: SizedBox(
-                  height: 48,
                   child: CustomTextField(
                     bgColor: AppColors.whiteColor,
                     isBoxShadow: true,

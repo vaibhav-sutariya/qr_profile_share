@@ -13,7 +13,7 @@ class FollowUpWidget extends StatelessWidget {
 
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 100.0, end: 0.0), // Slide from right to left
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 600),
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(value, 0), // X-axis slide

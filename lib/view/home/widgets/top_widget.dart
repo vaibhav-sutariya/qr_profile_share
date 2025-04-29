@@ -31,7 +31,7 @@ class TopWidget extends StatelessWidget {
         );
         return TweenAnimationBuilder<double>(
           tween: Tween(begin: 100.0, end: 0.0),
-          duration: Duration(milliseconds: 050),
+          duration: Duration(milliseconds: 500),
 
           builder: (context, value, child) {
             return Transform.translate(

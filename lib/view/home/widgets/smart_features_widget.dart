@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,56 +70,54 @@ class SmartFeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeInRight(
-      child: Container(
-        width: getScreenWidth(context) * 0.59,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.whiteColor,
-          borderRadius: BorderRadius.circular(22),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.blackColor.withOpacity(0.06),
-              blurRadius: 2,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-                  radius: 18,
-                  child: Icon(
-                    feature.icon,
-                    color: AppColors.primaryColor,
-                    size: 20,
-                  ),
+    return Container(
+      width: getScreenWidth(context) * 0.59,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.whiteColor,
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.blackColor.withOpacity(0.06),
+            blurRadius: 2,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: AppColors.primaryColor.withOpacity(0.1),
+                radius: 18,
+                child: Icon(
+                  feature.icon,
+                  color: AppColors.primaryColor,
+                  size: 20,
                 ),
-                const Spacer(),
-                CupertinoSwitch(
-                  value: feature.isEnabled,
-                  onChanged: onChanged,
-                  activeTrackColor: AppColors.primaryColor, // Blue thumb color
-                  inactiveTrackColor: Colors.blue.shade100, // Light blue track
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              feature.title,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              feature.description,
-              style: const TextStyle(fontSize: 12, color: AppColors.blackColor),
-            ),
-          ],
-        ),
+              ),
+              const Spacer(),
+              CupertinoSwitch(
+                value: feature.isEnabled,
+                onChanged: onChanged,
+                activeTrackColor: AppColors.primaryColor, // Blue thumb color
+                inactiveTrackColor: Colors.blue.shade100, // Light blue track
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            feature.title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            feature.description,
+            style: const TextStyle(fontSize: 12, color: AppColors.blackColor),
+          ),
+        ],
       ),
     );
   }

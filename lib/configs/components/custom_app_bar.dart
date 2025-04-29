@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/configs/components/back_button_widget.dart';
@@ -23,7 +22,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeInDown(
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeIn,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, (1 - value) * -50), // Slide from top
+            child: child,
+          ),
+        );
+      },
       child: Container(
         decoration: const BoxDecoration(
           gradient: AppColors.gradientColor,

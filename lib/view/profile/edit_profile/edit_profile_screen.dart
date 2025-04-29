@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -46,15 +45,29 @@ class EditProfileScreen extends StatelessWidget {
               ),
             ),
             body: SingleChildScrollView(
-              child: Column(
-                spacing: 20,
-                children: [
-                  const SizedBox(height: 20),
-                  ProfilePickerWidget(
-                    userProfileViewModel: userProfileViewModel,
-                  ),
-                  FadeInRight(
-                    child: FieldWidget(
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(
+                  begin: 100.0,
+                  end: 0.0,
+                ), // Slide from right to left
+                duration: Duration(milliseconds: 600),
+                builder: (context, value, child) {
+                  return Transform.translate(
+                    offset: Offset(value, 0), // X-axis slide
+                    child: Opacity(
+                      opacity: 1 - (value / 100), // fade in effect
+                      child: child,
+                    ),
+                  );
+                },
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    const SizedBox(height: 20),
+                    ProfilePickerWidget(
+                      userProfileViewModel: userProfileViewModel,
+                    ),
+                    FieldWidget(
                       title: 'Full Name',
                       icon: Icons.person_2_outlined,
                       text: 'Enter your name',
@@ -62,10 +75,7 @@ class EditProfileScreen extends StatelessWidget {
                       onChanged: (value) => viewModel.setfullName(value),
                       keyboardType: TextInputType.name,
                     ),
-                  ),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 100),
-                    child: FieldWidget(
+                    FieldWidget(
                       title: 'Email',
                       icon: Icons.email_outlined,
                       text: 'Enter your name',
@@ -73,11 +83,7 @@ class EditProfileScreen extends StatelessWidget {
                       initialValue: data?.email,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                  ),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 200),
-
-                    child: FieldWidget(
+                    FieldWidget(
                       title: 'Phone',
                       icon: Feather.phone,
                       initialValue: data?.phoneNumber,
@@ -86,11 +92,7 @@ class EditProfileScreen extends StatelessWidget {
 
                       keyboardType: TextInputType.number,
                     ),
-                  ),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 300),
-
-                    child: FieldWidget(
+                    FieldWidget(
                       title: 'Location',
                       icon: Icons.location_on_outlined,
                       text: 'Enter your name',
@@ -98,11 +100,7 @@ class EditProfileScreen extends StatelessWidget {
                       onChanged: (value) => viewModel.setLocation(value),
                       keyboardType: TextInputType.text,
                     ),
-                  ),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 350),
-
-                    child: FieldWidget(
+                    FieldWidget(
                       title: 'Company',
                       icon: Icons.work_outline_rounded,
                       text: 'Enter your name',
@@ -110,11 +108,7 @@ class EditProfileScreen extends StatelessWidget {
                       onChanged: (value) => viewModel.setCompany(value),
                       keyboardType: TextInputType.name,
                     ),
-                  ),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 400),
-
-                    child: FieldWidget(
+                    FieldWidget(
                       title: 'Role',
                       icon: Icons.work_outline_rounded,
                       text: 'Enter your name',
@@ -122,11 +116,7 @@ class EditProfileScreen extends StatelessWidget {
                       onChanged: (value) => viewModel.setRole(value),
                       keyboardType: TextInputType.name,
                     ),
-                  ),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 450),
-
-                    child: FieldWidget(
+                    FieldWidget(
                       title: 'Website',
                       icon: Feather.link,
                       initialValue: data?.website,
@@ -134,11 +124,7 @@ class EditProfileScreen extends StatelessWidget {
                       onChanged: (value) => viewModel.setWebsite(value),
                       keyboardType: TextInputType.name,
                     ),
-                  ),
-                  FadeInRight(
-                    delay: const Duration(milliseconds: 500),
-
-                    child: Padding(
+                    Padding(
                       padding: const EdgeInsets.all(16.0),
                       child:
                           viewModel.updateProfileLoading
@@ -152,9 +138,9 @@ class EditProfileScreen extends StatelessWidget {
                                 },
                               ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),

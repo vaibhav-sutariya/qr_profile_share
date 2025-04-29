@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qr_profile_share/configs/utils/utils.dart';
 import 'package:qr_profile_share/model/scan/qr_model.dart';
 import 'package:qr_profile_share/repository/scan/add_scan_profile_repository.dart';
 import 'package:qr_profile_share/view/scan/widgets/scan_result_dialog.dart';
@@ -149,20 +150,45 @@ class ScanViewModel extends ChangeNotifier {
     try {
       addUserProfileLoading(true);
       final data = {"userId": id};
-      log("User ID: $data"); // ✅ Debugging Step
-      final token = await getAccessToken(); // Get the token from storage
+      log("User ID: $data");
+
+      final token = await getAccessToken();
+
       final response = await AddScanProfileRepository().addContact(
         jsonEncode(data),
         token,
       );
-      log('profile added successfully'); // ✅ Debugging Step
 
-      addUserProfileLoading(false);
+      log("Response: $response");
 
-      return response;
+      if (response['status'] == 'success') {
+        final message = response['message'] ?? 'successfully added';
+        Utils.flushBarSuccessMessage(message, context);
+        return response;
+      }
+
+      if (response['status'] == 'fail') {
+        final message = response['message'] ?? 'Something went wrong';
+        Utils.flushBarErrorMessage(message, context); // show actual message
+        return response;
+      }
+
+      Utils.flushBarErrorMessage('Unexpected error occurred', context);
+      return {"success": false};
     } catch (e) {
-      log("profile add Error: $e"); // Add this log
-      addUserProfileLoading(false);
+      log("profile add Error: $e");
+
+      try {
+        final decodedError = jsonDecode(
+          e.toString().replaceFirst('Exception: profile add failed: ', ''),
+        );
+        final message = decodedError['message'] ?? 'Something went wrong';
+        Utils.flushBarErrorMessage(message, context);
+      } catch (_) {
+        // Fallback error display
+        Utils.flushBarErrorMessage('Something went wrong', context);
+      }
+
       return {"success": false, "message": e.toString()};
     } finally {
       addUserProfileLoading(false);

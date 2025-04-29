@@ -125,10 +125,9 @@ class ScanResultDialog extends StatelessWidget {
                             color: AppColors.primaryColor,
                           )
                           : ElevatedButton.icon(
-                            onPressed: () {
+                            onPressed: () async {
                               log('Add button pressed for user: $sId');
                               value.addContact(sId!, context);
-                              Navigator.pop(context);
                             },
                             icon: const Icon(AntDesign.pluscircleo),
                             label: const Text("Add"),

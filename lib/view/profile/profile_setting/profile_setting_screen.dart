@@ -86,21 +86,7 @@ class ProfileSettingScreen extends StatelessWidget {
             ),
           ),
 
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 100.0, end: 0.0),
-            duration: Duration(milliseconds: 700),
-            curve: Curves.easeInOut,
-            builder: (context, value, child) {
-              return Transform.translate(
-                offset: Offset(value, 0), // X-axis slide
-                child: Opacity(
-                  opacity: 1 - (value / 100), // fade in effect
-                  child: child,
-                ),
-              );
-            },
-            child: Expanded(child: tabs[provider.currentTabIndex]),
-          ),
+          Expanded(child: tabs[provider.currentTabIndex]),
         ],
       ),
     );

@@ -42,94 +42,111 @@ class QrDesignTab extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 12,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'QR Code Customization',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
+                    child: TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 100.0, end: 0.0),
+                      duration: Duration(milliseconds: 600),
+                      curve: Curves.easeInOut,
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(value, 0), // X-axis slide
+                          child: Opacity(
+                            opacity: 1 - (value / 100), // fade in effect
+                            child: child,
                           ),
-                          const SizedBox(height: 12),
-
-                          /// Theme Colors
-                          const Text(
-                            'Theme Color',
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children:
-                                themeColors.map((color) {
-                                  return GestureDetector(
-                                    onTap: () => provider.updateQrColor(color),
-                                    child: CircleAvatar(
-                                      radius: 18,
-                                      backgroundColor: color,
-                                      child:
-                                          provider.qrColor == color
-                                              ? const Icon(
-                                                Icons.check,
-                                                color: Colors.white,
-                                                size: 18,
-                                              )
-                                              : null,
-                                    ),
-                                  );
-                                }).toList(),
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          /// Upload Logo
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () => provider.pickQrLogo(),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey[100],
-                                elevation: 0,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 12,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'QR Code Customization',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
                               ),
-                              child: Text(
-                                'Upload Custom Logo',
-                                style: TextStyle(
-                                  color: AppColors.primaryColor,
-                                  fontWeight: FontWeight.bold,
+                            ),
+                            const SizedBox(height: 12),
+
+                            /// Theme Colors
+                            const Text(
+                              'Theme Color',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children:
+                                  themeColors.map((color) {
+                                    return GestureDetector(
+                                      onTap:
+                                          () => provider.updateQrColor(color),
+                                      child: CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: color,
+                                        child:
+                                            provider.qrColor == color
+                                                ? const Icon(
+                                                  Icons.check,
+                                                  color: Colors.white,
+                                                  size: 18,
+                                                )
+                                                : null,
+                                      ),
+                                    );
+                                  }).toList(),
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            /// Upload Logo
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () => provider.pickQrLogo(),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.grey[100],
+                                  elevation: 0,
+                                ),
+                                child: Text(
+                                  'Upload Custom Logo',
+                                  style: TextStyle(
+                                    color: AppColors.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          /// Preview
-                          const SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Preview',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Center(
-                            child: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey.shade300),
-                                borderRadius: BorderRadius.circular(12),
+                            /// Preview
+                            const SizedBox(height: 20),
+                            Align(
+                              alignment: Alignment.center,
+                              child: const Text(
+                                'Preview',
+                                style: TextStyle(fontWeight: FontWeight.w500),
                               ),
-                              child: MyQrWidget(size: 0.2),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 10),
+                            Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: MyQrWidget(size: 0.2),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

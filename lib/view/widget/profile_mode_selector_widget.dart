@@ -41,6 +41,7 @@ class ProfileModeSelector extends StatelessWidget {
               child: Text(
                 modeName,
                 style: TextStyle(
+                  fontSize: 14,
                   color: AppColors.whiteColor,
                   fontWeight: FontWeight.bold,
                 ),

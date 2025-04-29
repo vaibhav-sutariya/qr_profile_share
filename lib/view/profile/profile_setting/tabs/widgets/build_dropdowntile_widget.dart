@@ -18,40 +18,58 @@ class BuildDropdowntileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            _iconCircle(icon),
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 100.0, end: 0.0),
+      duration: Duration(milliseconds: 600),
+      curve: Curves.easeInOut,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(value, 0), // X-axis slide
+          child: Opacity(
+            opacity: 1 - (value / 100), // fade in effect
+            child: child,
+          ),
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              _iconCircle(icon),
+              const SizedBox(width: 10),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            height: 35,
+            decoration: BoxDecoration(
+              color: AppColors.darkColor.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(10),
             ),
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          height: 35,
-          decoration: BoxDecoration(
-            color: AppColors.darkColor.withOpacity(0.05),
-            borderRadius: BorderRadius.circular(10),
+            child: DropdownButton<String>(
+              value: value,
+              underline: const SizedBox.shrink(),
+              borderRadius: BorderRadius.circular(10),
+              onChanged: onChanged,
+              items:
+                  items
+                      .map(
+                        (e) =>
+                            DropdownMenuItem<String>(value: e, child: Text(e)),
+                      )
+                      .toList(),
+            ),
           ),
-          child: DropdownButton<String>(
-            value: value,
-            underline: const SizedBox.shrink(),
-            borderRadius: BorderRadius.circular(10),
-            onChanged: onChanged,
-            items:
-                items
-                    .map(
-                      (e) => DropdownMenuItem<String>(value: e, child: Text(e)),
-                    )
-                    .toList(),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

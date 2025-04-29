@@ -13,11 +13,13 @@ class LoginViewModel extends ChangeNotifier {
 
   void updateEmail(String value) {
     _email = value;
+    checkLoginButtonEnabled();
     notifyListeners();
   }
 
   void updatePassword(String value) {
     _password = value;
+    checkLoginButtonEnabled();
     notifyListeners();
   }
 
@@ -32,6 +34,13 @@ class LoginViewModel extends ChangeNotifier {
 
   setLoginLoading(bool value) {
     _loginLoading = value;
+    notifyListeners();
+  }
+
+  bool isLoginButtonEnabled = false;
+
+  void checkLoginButtonEnabled() {
+    isLoginButtonEnabled = _email.isNotEmpty && _password.isNotEmpty;
     notifyListeners();
   }
 

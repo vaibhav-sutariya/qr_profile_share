@@ -7,6 +7,7 @@ class CustomPasswordField extends StatefulWidget {
   final Function(String)? onChanged;
   final TextEditingController? controller;
   final bool? isConfirm;
+  final String? Function(String?)? validator;
 
   const CustomPasswordField({
     super.key,
@@ -14,6 +15,7 @@ class CustomPasswordField extends StatefulWidget {
     this.onChanged,
     this.controller,
     this.isConfirm = false,
+    this.validator,
   });
 
   @override
@@ -33,54 +35,59 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 100.0, end: 0.0),
-      duration: Duration(milliseconds: 550),
-
+      duration: const Duration(milliseconds: 550),
       builder: (context, value, child) {
         return Transform.translate(
-          offset: Offset(value, 0), // X-axis slide
-          child: Opacity(
-            opacity: 1 - (value / 100), // fade in effect
-            child: child,
-          ),
+          offset: Offset(value, 0),
+          child: Opacity(opacity: 1 - (value / 100), child: child),
         );
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.lightColor.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: TextField(
-          controller: widget.controller,
-          obscureText: _obscureText,
-          keyboardType: TextInputType.visiblePassword,
-          onChanged: widget.onChanged,
-          onEditingComplete: () => FocusScope.of(context).unfocus(),
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Feather.lock,
-              color: AppColors.darkColor,
-              size: 20,
-            ),
-            hintText: widget.hintText,
-            hintStyle: TextStyle(color: AppColors.lightColor),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-            focusedBorder: OutlineInputBorder(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.lightColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
             ),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscureText
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-                size: 20,
-                color: AppColors.darkColor,
+            child: TextFormField(
+              controller: widget.controller,
+              obscureText: _obscureText,
+              keyboardType: TextInputType.visiblePassword,
+              onChanged: widget.onChanged,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: widget.validator,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  Feather.lock,
+                  color: AppColors.darkColor,
+                  size: 20,
+                ),
+                hintText: widget.hintText,
+                hintStyle: TextStyle(color: AppColors.lightColor),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor,
+                    width: 1.5,
+                  ),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    size: 20,
+                    color: AppColors.darkColor,
+                  ),
+                  onPressed: _toggleVisibility,
+                ),
               ),
-              onPressed: _toggleVisibility,
             ),
           ),
-        ),
+        ],
       ),
     );
   }

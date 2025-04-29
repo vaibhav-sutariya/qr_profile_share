@@ -108,6 +108,18 @@ class LoginScreen extends StatelessWidget {
                                 onChanged: (value) {
                                   loginViewModel.updateEmail(value);
                                 },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your email';
+                                  }
+                                  if (!RegExp(
+                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                                  ).hasMatch(value)) {
+                                    return 'Please enter a valid email address';
+                                  }
+                                  return null;
+                                },
+
                                 keyboardType: TextInputType.emailAddress,
                                 icon: Icons.email_outlined,
                                 text: 'Email',
@@ -116,6 +128,13 @@ class LoginScreen extends StatelessWidget {
                                 hintText: "Password",
                                 onChanged: (value) {
                                   loginViewModel.updatePassword(value);
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Password is required';
+                                  }
+
+                                  return null;
                                 },
                               ),
                               TweenAnimationBuilder<double>(
@@ -149,6 +168,11 @@ class LoginScreen extends StatelessWidget {
                                     ),
                                   )
                                   : CustomElevatedButton(
+                                    btnColor:
+                                        loginViewModel.isLoginButtonEnabled
+                                            ? AppColors.primaryColor
+                                            : AppColors.lightColor,
+
                                     text: 'Sign In',
                                     onPress: () {
                                       loginViewModel.login(context);

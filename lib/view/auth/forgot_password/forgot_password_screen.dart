@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
@@ -31,7 +30,19 @@ class ForgotPasswordScreen extends StatelessWidget {
                     SizedBox(height: 32),
                     BackButtonWidget(),
                     SizedBox(height: 50),
-                    FadeInRight(
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 100.0, end: 0.0),
+                      duration: Duration(milliseconds: 500),
+
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(value, 0), // X-axis slide
+                          child: Opacity(
+                            opacity: 1 - (value / 100), // fade in effect
+                            child: child,
+                          ),
+                        );
+                      },
                       child: Text(
                         'Forgot Password?',
                         style: TextStyle(
@@ -42,7 +53,19 @@ class ForgotPasswordScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8),
-                    FadeInRight(
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 100.0, end: 0.0),
+                      duration: Duration(milliseconds: 500),
+
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(value, 0), // X-axis slide
+                          child: Opacity(
+                            opacity: 1 - (value / 100), // fade in effect
+                            child: child,
+                          ),
+                        );
+                      },
                       child: Text(
                         'Enter your email address and we\'ll send you instruction to reset your password.',
                         style: TextStyle(
@@ -53,7 +76,19 @@ class ForgotPasswordScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 32),
-                    FadeInRight(
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 100.0, end: 0.0),
+                      duration: Duration(milliseconds: 550),
+
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(value, 0), // X-axis slide
+                          child: Opacity(
+                            opacity: 1 - (value / 100), // fade in effect
+                            child: child,
+                          ),
+                        );
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppColors.whiteColor,
@@ -67,36 +102,45 @@ class ForgotPasswordScreen extends StatelessWidget {
                           child: Column(
                             spacing: 20,
                             children: [
-                              FadeInRight(
-                                child: CustomTextField(
-                                  onChanged: (value) {
-                                    forgotPasswordViewModel.updateEmail(value);
-                                  },
-                                  keyboardType: TextInputType.emailAddress,
-                                  icon: Icons.email_outlined,
-                                  text: 'Email',
-                                ),
+                              CustomTextField(
+                                onChanged: (value) {
+                                  forgotPasswordViewModel.updateEmail(value);
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                icon: Icons.email_outlined,
+                                text: 'Email',
                               ),
 
-                              FadeInRight(
-                                child:
-                                    forgotPasswordViewModel
-                                            .forgotPasswordLoading
-                                        ? const Center(
-                                          child: CircularProgressIndicator(
-                                            color: AppColors.primaryColor,
-                                          ),
-                                        )
-                                        : // Custom Elevated Button
-                                        CustomElevatedButton(
-                                          text: 'Send Reset Instructions',
-                                          onPress: () {
-                                            forgotPasswordViewModel
-                                                .forgotPassword(context);
-                                          },
-                                        ),
-                              ),
-                              FadeInLeft(
+                              forgotPasswordViewModel.forgotPasswordLoading
+                                  ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  )
+                                  : // Custom Elevated Button
+                                  CustomElevatedButton(
+                                    duration: 600,
+                                    text: 'Send Reset Instructions',
+                                    onPress: () {
+                                      forgotPasswordViewModel.forgotPassword(
+                                        context,
+                                      );
+                                    },
+                                  ),
+                              TweenAnimationBuilder<double>(
+                                tween: Tween(begin: 100.0, end: 0.0),
+                                duration: Duration(milliseconds: 550),
+
+                                builder: (context, value, child) {
+                                  return Transform.translate(
+                                    offset: Offset(-value, 0), // X-axis slide
+                                    child: Opacity(
+                                      opacity:
+                                          1 - (value / 100), // fade in effect
+                                      child: child,
+                                    ),
+                                  );
+                                },
                                 child: TappableText(
                                   alignmet: Alignment.centerLeft,
 

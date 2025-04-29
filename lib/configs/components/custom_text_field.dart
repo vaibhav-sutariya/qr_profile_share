@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final Color? bgColor;
   final String? initialValue;
   final bool isBoxShadow;
+  final int? duration;
   const CustomTextField({
     super.key,
     required this.icon,
@@ -18,44 +19,59 @@ class CustomTextField extends StatelessWidget {
     this.bgColor,
     this.initialValue,
     this.isBoxShadow = false,
+    this.duration,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: bgColor ?? AppColors.lightColor.withOpacity(0.1),
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 100.0, end: 0.0),
+      duration: Duration(milliseconds: duration ?? 500),
 
-        boxShadow: [
-          isBoxShadow
-              ? BoxShadow(
-                color: AppColors.blackColor.withOpacity(0.2),
-                blurRadius: 2,
-              )
-              : BoxShadow(
-                color: AppColors.whiteColor.withOpacity(0.1),
-                blurRadius: 2,
-              ),
-        ],
-        borderRadius: BorderRadius.circular(12),
-      ),
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(value, 0), // X-axis slide
+          child: Opacity(
+            opacity: 1 - (value / 100), // fade in effect
+            child: child,
+          ),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor ?? AppColors.lightColor.withOpacity(0.1),
 
-      child: TextFormField(
-        initialValue: initialValue,
-        keyboardType: keyboardType,
+          boxShadow: [
+            isBoxShadow
+                ? BoxShadow(
+                  color: AppColors.blackColor.withOpacity(0.2),
+                  blurRadius: 2,
+                )
+                : BoxShadow(
+                  color: AppColors.whiteColor.withOpacity(0.1),
+                  blurRadius: 2,
+                ),
+          ],
+          borderRadius: BorderRadius.circular(12),
+        ),
 
-        onEditingComplete: () => FocusScope.of(context).unfocus(),
-        onChanged: onChanged,
+        child: TextFormField(
+          initialValue: initialValue,
+          keyboardType: keyboardType,
 
-        decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: AppColors.darkColor, size: 20),
-          hintText: text,
-          hintStyle: TextStyle(color: AppColors.lightColor),
-          contentPadding: EdgeInsets.fromLTRB(0, 16, 0, 16),
-          border: InputBorder.none,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
+          onEditingComplete: () => FocusScope.of(context).unfocus(),
+          onChanged: onChanged,
+
+          decoration: InputDecoration(
+            prefixIcon: Icon(icon, color: AppColors.darkColor, size: 20),
+            hintText: text,
+            hintStyle: TextStyle(color: AppColors.lightColor),
+            contentPadding: EdgeInsets.fromLTRB(0, 16, 0, 16),
+            border: InputBorder.none,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
+            ),
           ),
         ),
       ),

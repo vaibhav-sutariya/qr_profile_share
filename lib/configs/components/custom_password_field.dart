@@ -31,36 +31,54 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.lightColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: widget.controller,
-        obscureText: _obscureText,
-        keyboardType: TextInputType.visiblePassword,
-        onChanged: widget.onChanged,
-        onEditingComplete: () => FocusScope.of(context).unfocus(),
-        decoration: InputDecoration(
-          prefixIcon: Icon(Feather.lock, color: AppColors.darkColor, size: 20),
-          hintText: widget.hintText,
-          hintStyle: TextStyle(color: AppColors.lightColor),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 100.0, end: 0.0),
+      duration: Duration(milliseconds: 550),
+
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(value, 0), // X-axis slide
+          child: Opacity(
+            opacity: 1 - (value / 100), // fade in effect
+            child: child,
           ),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscureText
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              size: 20,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.lightColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: TextField(
+          controller: widget.controller,
+          obscureText: _obscureText,
+          keyboardType: TextInputType.visiblePassword,
+          onChanged: widget.onChanged,
+          onEditingComplete: () => FocusScope.of(context).unfocus(),
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Feather.lock,
               color: AppColors.darkColor,
+              size: 20,
             ),
-            onPressed: _toggleVisibility,
+            hintText: widget.hintText,
+            hintStyle: TextStyle(color: AppColors.lightColor),
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscureText
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                size: 20,
+                color: AppColors.darkColor,
+              ),
+              onPressed: _toggleVisibility,
+            ),
           ),
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +34,19 @@ class SignupScreen extends StatelessWidget {
                       SizedBox(height: 32),
                       BackButtonWidget(),
                       SizedBox(height: 15),
-                      FadeInRight(
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 100.0, end: 0.0),
+                        duration: Duration(milliseconds: 500),
+
+                        builder: (context, value, child) {
+                          return Transform.translate(
+                            offset: Offset(value, 0), // X-axis slide
+                            child: Opacity(
+                              opacity: 1 - (value / 100), // fade in effect
+                              child: child,
+                            ),
+                          );
+                        },
                         child: Text(
                           'Create Account',
                           style: TextStyle(
@@ -46,7 +57,19 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 8),
-                      FadeInRight(
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 100.0, end: 0.0),
+                        duration: Duration(milliseconds: 500),
+
+                        builder: (context, value, child) {
+                          return Transform.translate(
+                            offset: Offset(value, 0), // X-axis slide
+                            child: Opacity(
+                              opacity: 1 - (value / 100), // fade in effect
+                              child: child,
+                            ),
+                          );
+                        },
                         child: Text(
                           'Join our community of professionals',
                           style: TextStyle(
@@ -57,7 +80,19 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20),
-                      FadeInRight(
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 100.0, end: 0.0),
+                        duration: Duration(milliseconds: 500),
+
+                        builder: (context, value, child) {
+                          return Transform.translate(
+                            offset: Offset(value, 0), // X-axis slide
+                            child: Opacity(
+                              opacity: 1 - (value / 100), // fade in effect
+                              child: child,
+                            ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             color: AppColors.whiteColor,
@@ -71,44 +106,49 @@ class SignupScreen extends StatelessWidget {
                             child: Column(
                               spacing: 20,
                               children: [
-                                FadeInRight(
-                                  child: CustomTextField(
-                                    onChanged:
-                                        (value) =>
-                                            signupViewModel.updateName(value),
-                                    keyboardType: TextInputType.name,
-                                    icon: Feather.user,
-                                    text: 'Full Name',
-                                  ),
+                                CustomTextField(
+                                  onChanged:
+                                      (value) =>
+                                          signupViewModel.updateName(value),
+                                  keyboardType: TextInputType.name,
+                                  icon: Feather.user,
+                                  text: 'Full Name',
                                 ),
-                                FadeInRight(
-                                  child: CustomTextField(
-                                    onChanged:
-                                        (value) =>
-                                            signupViewModel.updateEmail(value),
-                                    keyboardType: TextInputType.emailAddress,
-                                    icon: Icons.email_outlined,
-                                    text: 'Email',
-                                  ),
+                                CustomTextField(
+                                  onChanged:
+                                      (value) =>
+                                          signupViewModel.updateEmail(value),
+                                  keyboardType: TextInputType.emailAddress,
+                                  icon: Icons.email_outlined,
+                                  text: 'Email',
                                 ),
-                                FadeInRight(
-                                  child: CustomPasswordField(
-                                    hintText: "Password",
-                                    onChanged:
-                                        (value) => signupViewModel
-                                            .updatePassword(value),
-                                  ),
+                                CustomPasswordField(
+                                  hintText: "Password",
+                                  onChanged:
+                                      (value) =>
+                                          signupViewModel.updatePassword(value),
                                 ),
-                                FadeInRight(
-                                  child: CustomPasswordField(
-                                    hintText: "Confirm Password",
-                                    onChanged:
-                                        (value) => signupViewModel
-                                            .updateConfirmPassword(value),
-                                  ),
+                                CustomPasswordField(
+                                  hintText: "Confirm Password",
+                                  onChanged:
+                                      (value) => signupViewModel
+                                          .updateConfirmPassword(value),
                                 ),
 
-                                FadeInRight(
+                                TweenAnimationBuilder<double>(
+                                  tween: Tween(begin: 100.0, end: 0.0),
+                                  duration: Duration(milliseconds: 500),
+
+                                  builder: (context, value, child) {
+                                    return Transform.translate(
+                                      offset: Offset(value, 0), // X-axis slide
+                                      child: Opacity(
+                                        opacity:
+                                            1 - (value / 100), // fade in effect
+                                        child: child,
+                                      ),
+                                    );
+                                  },
                                   child: Container(
                                     padding: const EdgeInsets.all(16),
                                     margin: const EdgeInsets.only(top: 10),
@@ -124,81 +164,67 @@ class SignupScreen extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       spacing: 10,
                                       children: [
-                                        FadeInRight(
-                                          child: Text(
-                                            'Password must contain:',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.blackColor,
-                                            ),
+                                        Text(
+                                          'Password must contain:',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.blackColor,
                                           ),
                                         ),
-                                        FadeInRight(
-                                          child: PassReqWidget(
-                                            text: 'At least 8 characters',
-                                            color:
-                                                signupViewModel.hasMinLength
-                                                    ? AppColors.successColor
-                                                    : AppColors.darkColor
-                                                        .withOpacity(0.5),
-                                          ),
+                                        PassReqWidget(
+                                          text: 'At least 8 characters',
+                                          color:
+                                              signupViewModel.hasMinLength
+                                                  ? AppColors.successColor
+                                                  : AppColors.darkColor
+                                                      .withOpacity(0.5),
                                         ),
-                                        FadeInRight(
-                                          child: PassReqWidget(
-                                            text: 'One uppercase letter',
-                                            color:
-                                                signupViewModel.hasUppercase
-                                                    ? AppColors.successColor
-                                                    : AppColors.darkColor
-                                                        .withOpacity(0.5),
-                                          ),
+                                        PassReqWidget(
+                                          text: 'One uppercase letter',
+                                          color:
+                                              signupViewModel.hasUppercase
+                                                  ? AppColors.successColor
+                                                  : AppColors.darkColor
+                                                      .withOpacity(0.5),
                                         ),
-                                        FadeInRight(
-                                          child: PassReqWidget(
-                                            text: 'One lowercase letter',
-                                            color:
-                                                signupViewModel.hasLowercase
-                                                    ? AppColors.successColor
-                                                    : AppColors.darkColor
-                                                        .withOpacity(0.5),
-                                          ),
+                                        PassReqWidget(
+                                          text: 'One lowercase letter',
+                                          color:
+                                              signupViewModel.hasLowercase
+                                                  ? AppColors.successColor
+                                                  : AppColors.darkColor
+                                                      .withOpacity(0.5),
                                         ),
-                                        FadeInRight(
-                                          child: PassReqWidget(
-                                            text: 'One number',
-                                            color:
-                                                signupViewModel.hasNumber
-                                                    ? AppColors.successColor
-                                                    : AppColors.darkColor
-                                                        .withOpacity(0.5),
-                                          ),
+                                        PassReqWidget(
+                                          text: 'One number',
+                                          color:
+                                              signupViewModel.hasNumber
+                                                  ? AppColors.successColor
+                                                  : AppColors.darkColor
+                                                      .withOpacity(0.5),
                                         ),
-                                        FadeInRight(
-                                          child: PassReqWidget(
-                                            text: 'One special Characters',
-                                            color:
-                                                signupViewModel.hasSpecialChar
-                                                    ? AppColors.successColor
-                                                    : AppColors.darkColor
-                                                        .withOpacity(0.5),
-                                          ),
+                                        PassReqWidget(
+                                          text: 'One special Characters',
+                                          color:
+                                              signupViewModel.hasSpecialChar
+                                                  ? AppColors.successColor
+                                                  : AppColors.darkColor
+                                                      .withOpacity(0.5),
                                         ),
                                         if (signupViewModel
                                                 .confirmPassword
                                                 .isNotEmpty &&
                                             !signupViewModel.passwordsMatch)
-                                          FadeInRight(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 8,
-                                              ),
-                                              child: Text(
-                                                'Passwords do not match',
-                                                style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 12,
-                                                ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 8,
+                                            ),
+                                            child: Text(
+                                              'Passwords do not match',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 12,
                                               ),
                                             ),
                                           ),
@@ -207,31 +233,24 @@ class SignupScreen extends StatelessWidget {
                                   ),
                                 ),
 
-                                FadeInRight(
-                                  child:
-                                      signupViewModel.signupLoading
-                                          ? CircularProgressIndicator(
-                                            color: AppColors.primaryColor,
-                                          )
-                                          : CustomElevatedButton(
-                                            text: 'Create Account',
-                                            onPress: () {
-                                              signupViewModel.signUpUser(
-                                                context,
-                                              );
-                                            },
-                                          ),
-                                ),
-                                FadeInRight(
-                                  child: HaveAccountText(
-                                    text: 'Already have an account?',
-                                    tappableText: 'Sign In',
-                                    onPress:
-                                        () => Navigator.pushNamed(
-                                          context,
-                                          RoutesName.loginScreen,
-                                        ),
-                                  ),
+                                signupViewModel.signupLoading
+                                    ? CircularProgressIndicator(
+                                      color: AppColors.primaryColor,
+                                    )
+                                    : CustomElevatedButton(
+                                      text: 'Create Account',
+                                      onPress: () {
+                                        signupViewModel.signUpUser(context);
+                                      },
+                                    ),
+                                HaveAccountText(
+                                  text: 'Already have an account?',
+                                  tappableText: 'Sign In',
+                                  onPress:
+                                      () => Navigator.pushNamed(
+                                        context,
+                                        RoutesName.loginScreen,
+                                      ),
                                 ),
                               ],
                             ),

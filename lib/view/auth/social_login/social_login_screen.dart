@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/assets/icons_assets.dart';
@@ -27,8 +26,19 @@ class SocialLoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FadeInRight(
-                        delay: Duration(milliseconds: 0),
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 100.0, end: 0.0),
+                        duration: Duration(milliseconds: 500),
+
+                        builder: (context, value, child) {
+                          return Transform.translate(
+                            offset: Offset(value, 0), // X-axis slide
+                            child: Opacity(
+                              opacity: 1 - (value / 100), // fade in effect
+                              child: child,
+                            ),
+                          );
+                        },
                         child: Text(
                           'Continue with Social',
                           style: TextStyle(
@@ -39,8 +49,19 @@ class SocialLoginScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 8),
-                      FadeInRight(
-                        delay: Duration(milliseconds: 200),
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 100.0, end: 0.0),
+                        duration: Duration(milliseconds: 530),
+
+                        builder: (context, value, child) {
+                          return Transform.translate(
+                            offset: Offset(value, 0), // X-axis slide
+                            child: Opacity(
+                              opacity: 1 - (value / 100), // fade in effect
+                              child: child,
+                            ),
+                          );
+                        },
                         child: Text(
                           'Choose your preferred social login method',
                           style: TextStyle(
@@ -57,50 +78,39 @@ class SocialLoginScreen extends StatelessWidget {
                               color: AppColors.whiteColor,
                             ),
                           )
-                          : FadeInRight(
-                            delay: Duration(milliseconds: 400),
-                            child: CustomSocialButton(
-                              text: 'Sign in with Google',
-                              imagePath: IconsAssets.google,
-                              onPressed: () {
-                                value.googleSignIn(context);
-                              },
-                            ),
+                          : CustomSocialButton(
+                            duration: 500,
+                            text: 'Sign in with Google',
+                            imagePath: IconsAssets.google,
+                            onPressed: () {
+                              value.googleSignIn(context);
+                            },
                           ),
                       SizedBox(height: 8),
 
-                      FadeInRight(
-                        delay: Duration(milliseconds: 500),
-                        child: CustomSocialButton(
-                          text: 'Sign in with Facebook',
-                          imagePath: IconsAssets.facebook,
-                          onPressed: () {},
-                        ),
+                      CustomSocialButton(
+                        duration: 600,
+                        text: 'Sign in with Facebook',
+                        imagePath: IconsAssets.facebook,
+                        onPressed: () {},
                       ),
                       SizedBox(height: 8),
 
-                      FadeInRight(
-                        delay: Duration(milliseconds: 600),
-                        child: CustomSocialButton(
-                          text: 'Sign in with Apple',
-                          imagePath: IconsAssets.apple,
-                          onPressed: () {},
-                        ),
+                      CustomSocialButton(
+                        duration: 700,
+                        text: 'Sign in with Apple',
+                        imagePath: IconsAssets.apple,
+                        onPressed: () {},
                       ),
                       SizedBox(height: 8),
 
-                      FadeInRight(
-                        delay: Duration(milliseconds: 700),
-                        child: CustomSocialButton(
-                          text: 'Continue with Email',
-                          imagePath: IconsAssets.email,
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              RoutesName.loginScreen,
-                            );
-                          },
-                        ),
+                      CustomSocialButton(
+                        duration: 800,
+                        text: 'Continue with Email',
+                        imagePath: IconsAssets.email,
+                        onPressed: () {
+                          Navigator.pushNamed(context, RoutesName.loginScreen);
+                        },
                       ),
                     ],
                   ),

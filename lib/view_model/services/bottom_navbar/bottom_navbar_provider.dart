@@ -19,4 +19,10 @@ class BottomNavBarProvider with ChangeNotifier {
   void disposeController() {
     pageController.dispose();
   }
+
+  void resetIndex() {
+    currentIndex = 0;
+    pageController.jumpToPage(currentIndex);
+    notifyListeners();
+  }
 }

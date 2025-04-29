@@ -12,6 +12,7 @@ import 'package:qr_profile_share/view/profile/widgets/qr_code_ana_widget.dart';
 import 'package:qr_profile_share/view/profile/widgets/recent_activity_widget.dart';
 import 'package:qr_profile_share/view/profile/widgets/top_profile_widget.dart';
 import 'package:qr_profile_share/view_model/controller/profile/user_profile_view_model.dart';
+import 'package:qr_profile_share/view_model/services/bottom_navbar/bottom_navbar_provider.dart';
 import 'package:qr_profile_share/view_model/services/session_manager/session_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -47,20 +48,25 @@ class ProfileScreen extends StatelessWidget {
                           const SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: CustomElevatedButton(
-                              btnColor: AppColors.redColor,
-                              text: 'Logout',
-                              onPress: () {
-                                SessionController().clearSession().then((
-                                  value,
-                                ) {
-                                  log('Session cleared: ');
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    RoutesName.loginScreen,
-                                    (route) => false,
-                                  );
-                                });
+                            child: Consumer<BottomNavBarProvider>(
+                              builder: (context, viewModel, child) {
+                                return CustomElevatedButton(
+                                  btnColor: AppColors.redColor,
+                                  text: 'Logout',
+                                  onPress: () {
+                                    SessionController().clearSession().then((
+                                      value,
+                                    ) {
+                                      log('Session cleared: ');
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        RoutesName.loginScreen,
+                                        (route) => false,
+                                      );
+                                      viewModel.resetIndex();
+                                    });
+                                  },
+                                );
                               },
                             ),
                           ),

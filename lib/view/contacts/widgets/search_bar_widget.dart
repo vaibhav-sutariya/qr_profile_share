@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +15,19 @@ class SearchBarWidget extends StatelessWidget {
         return Row(
           children: [
             Expanded(
-              child: FadeInLeft(
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 100.0, end: 0.0),
+                duration: Duration(milliseconds: 600),
+
+                builder: (context, value, child) {
+                  return Transform.translate(
+                    offset: Offset(-value, 0), // Slide from left to right
+                    child: Opacity(
+                      opacity: 1 - (value / 100), // fade in effect
+                      child: child,
+                    ),
+                  );
+                },
                 child: SizedBox(
                   height: 48,
                   child: CustomTextField(
@@ -32,7 +43,19 @@ class SearchBarWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            FadeInRight(
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 100.0, end: 0.0),
+              duration: Duration(milliseconds: 600),
+
+              builder: (context, value, child) {
+                return Transform.translate(
+                  offset: Offset(value, 0), // X-axis slide
+                  child: Opacity(
+                    opacity: 1 - (value / 100), // fade in effect
+                    child: child,
+                  ),
+                );
+              },
               child: Container(
                 height: 48,
                 width: 48,

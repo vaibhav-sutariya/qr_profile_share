@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -30,75 +29,67 @@ class AddNewContactScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 16),
                 AddPhotoWidget(),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 100),
-                  child: FieldWidget(
-                    title: 'Full Name',
-                    icon: Icons.person_2_outlined,
-                    text: 'Enter full name',
-                    onChanged: (value) => viewModel.setName(value),
-                    keyboardType: TextInputType.name,
-                  ),
+                FieldWidget(
+                  duration: 400,
+                  title: 'Full Name',
+                  icon: Icons.person_2_outlined,
+                  text: 'Enter full name',
+                  onChanged: (value) => viewModel.setName(value),
+                  keyboardType: TextInputType.name,
                 ),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 200),
-                  child: FieldWidget(
-                    title: 'Email',
-                    icon: Icons.email_outlined,
-                    text: 'Enter email address',
-                    onChanged: (value) => viewModel.setEmail(value),
-                    keyboardType: TextInputType.name,
-                  ),
+                FieldWidget(
+                  duration: 500,
+
+                  title: 'Email',
+                  icon: Icons.email_outlined,
+                  text: 'Enter email address',
+                  onChanged: (value) => viewModel.setEmail(value),
+                  keyboardType: TextInputType.name,
                 ),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 300),
-                  child: FieldWidget(
-                    title: 'Phone',
-                    icon: Feather.phone,
-                    text: 'Enter phone number',
-                    onChanged: (value) => viewModel.setPhoneNumber(value),
-                    keyboardType: TextInputType.name,
-                  ),
+                FieldWidget(
+                  duration: 600,
+
+                  title: 'Phone',
+                  icon: Feather.phone,
+                  text: 'Enter phone number',
+                  onChanged: (value) => viewModel.setPhoneNumber(value),
+                  keyboardType: TextInputType.name,
                 ),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 400),
-                  child: FieldWidget(
-                    title: 'Location',
-                    icon: Icons.location_on_outlined,
-                    text: 'Enter location',
-                    onChanged: (value) => viewModel.setLocation(value),
-                    keyboardType: TextInputType.name,
-                  ),
+                FieldWidget(
+                  duration: 700,
+
+                  title: 'Location',
+                  icon: Icons.location_on_outlined,
+                  text: 'Enter location',
+                  onChanged: (value) => viewModel.setLocation(value),
+                  keyboardType: TextInputType.name,
                 ),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 500),
-                  child: FieldWidget(
-                    title: 'Company',
-                    icon: Icons.work_outline_rounded,
-                    text: 'Enter company name',
-                    onChanged: (value) => viewModel.setCompany(value),
-                    keyboardType: TextInputType.name,
-                  ),
+                FieldWidget(
+                  duration: 750,
+
+                  title: 'Company',
+                  icon: Icons.work_outline_rounded,
+                  text: 'Enter company name',
+                  onChanged: (value) => viewModel.setCompany(value),
+                  keyboardType: TextInputType.name,
                 ),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 550),
-                  child: FieldWidget(
-                    title: 'Role',
-                    icon: Icons.work_outline_rounded,
-                    text: 'Enter job title',
-                    onChanged: (value) => viewModel.setRole(value),
-                    keyboardType: TextInputType.name,
-                  ),
+                FieldWidget(
+                  duration: 800,
+
+                  title: 'Role',
+                  icon: Icons.work_outline_rounded,
+                  text: 'Enter job title',
+                  onChanged: (value) => viewModel.setRole(value),
+                  keyboardType: TextInputType.name,
                 ),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 600),
-                  child: FieldWidget(
-                    title: 'Website',
-                    icon: Feather.link,
-                    text: 'Enter website URL',
-                    onChanged: (value) => viewModel.setWebsite(value),
-                    keyboardType: TextInputType.name,
-                  ),
+                FieldWidget(
+                  duration: 850,
+
+                  title: 'Website',
+                  icon: Feather.link,
+                  text: 'Enter website URL',
+                  onChanged: (value) => viewModel.setWebsite(value),
+                  keyboardType: TextInputType.name,
                 ),
 
                 const SizedBox(height: 16),

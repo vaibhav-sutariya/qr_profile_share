@@ -16,7 +16,11 @@ class AddNewContactScreen extends StatelessWidget {
         return Scaffold(
           appBar: CustomAppBar(
             isActionButtonVisible: true,
-            icon: Ionicons.save_outline,
+            icon:
+                viewModel.addNewContactLoading
+                    ? AntDesign.loading2
+                    : Ionicons.save_outline,
+
             onPressed: () {
               viewModel.addNewContact(context);
             },

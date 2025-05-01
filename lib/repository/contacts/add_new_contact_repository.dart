@@ -20,8 +20,13 @@ class AddNewContactRepository extends ChangeNotifier {
       final responseData = jsonDecode(response.body);
       log("Add contact Response: $responseData");
       return responseData;
+    } else if (response.statusCode == 400) {
+      final errorResponse = jsonDecode(response.body);
+      log("Error Response: $errorResponse");
+      return {'error': true, 'message': errorResponse['message']};
     } else {
-      throw Exception("add contact failed: ${response.body}");
+      log("Error Response: ${response.statusCode}");
+      return {'error': true, 'message': 'Something went wrong'};
     }
   }
 }

@@ -122,8 +122,16 @@ class AddContactViewModel extends ChangeNotifier {
         data,
         token,
       );
-      log('contact added successfully'); // ✅ Debugging Step
-      Utils.flushBarSuccessMessage('Contact added successfully', context);
+      if (response['status'] == 'success') {
+        log('Contact added successfully: $response'); // ✅ Debugging Step
+        Utils.flushBarSuccessMessage(response['message'], context);
+      } else {
+        log(
+          'Failed to add contact: ${response['message']}',
+        ); // ✅ Debugging Step
+        Utils.flushBarErrorMessage(response['message'], context);
+        return response;
+      }
 
       getAddNewContactLoading(false);
 

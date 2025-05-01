@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
+import 'package:qr_profile_share/configs/responsive.dart';
 import 'package:qr_profile_share/view_model/services/mode_toggle/mode_toggle_view_model.dart';
 
 class ProfileModeSelector extends StatelessWidget {
@@ -41,7 +42,7 @@ class ProfileModeSelector extends StatelessWidget {
               child: Text(
                 modeName,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: getScreenWidth(context) * 0.032,
                   color: AppColors.whiteColor,
                   fontWeight: FontWeight.bold,
                 ),

@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute:
             isVisited ? RoutesName.splash : RoutesName.onBoardingScreen,
+        // home: OpenappScreen(),
         onGenerateRoute: Routes.generateRoute,
       ),
     );

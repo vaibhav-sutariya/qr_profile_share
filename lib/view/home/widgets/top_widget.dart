@@ -20,15 +20,8 @@ class TopWidget extends StatelessWidget {
         log("topwidget : ${qrCodeDataViewModel.id} ");
         // var data = userProfileViewModel.userProfile!.data!.user;
         var id = qrCodeDataViewModel.id;
-        var name = qrCodeDataViewModel.name;
-        var email = qrCodeDataViewModel.email;
-        var photo = qrCodeDataViewModel.photo;
-        var position = qrCodeDataViewModel.position;
-        var location = qrCodeDataViewModel.location;
 
-        log(
-          "id : $id, name : $name, email : $email, photo : $photo, position : $position, location : $location",
-        );
+        log("id : $id");
         return TweenAnimationBuilder<double>(
           tween: Tween(begin: 100.0, end: 0.0),
           duration: Duration(milliseconds: 500),

@@ -21,7 +21,9 @@ class AddScanProfileRepository extends ChangeNotifier {
       log("Add profile Response: $responseData");
       return responseData;
     } else {
-      throw Exception("profile add failed: ${response.body}");
+      final responseData = jsonDecode(response.body);
+      log("Error Response: $responseData");
+      return {'error': true, 'message': responseData['message']};
     }
   }
 }

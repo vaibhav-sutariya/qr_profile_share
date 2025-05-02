@@ -1,11 +1,17 @@
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:qr_profile_share/repository/qr_data/get_qr_data_repository.dart';
 import 'package:qr_profile_share/view_model/services/storage/local_storage.dart';
 
 class QrCodeDataViewModel with ChangeNotifier {
   // Singleton pattern to ensure only one instance of the class exists
   QrCodeDataViewModel._privateConstructor() {
     // Fetch data on initialization
-    getData();
+    getData().then((_) {
+      // After fetching data, you can call getQrDataLink() if needed
+      getQrDataLink();
+    });
   }
 
   static final QrCodeDataViewModel _instance =
@@ -30,31 +36,11 @@ class QrCodeDataViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  String _email = "Please update the profile";
-  String get email => _email;
-  setEmail(String email) {
-    _email = email;
-    notifyListeners();
-  }
+  String _dynamicLink = ''; // Default dynamic link
+  String get dynamicLink => _dynamicLink;
 
-  String _photo = "Please update the profile";
-  String get photo => _photo;
-  setPhoto(String photo) {
-    _photo = photo;
-    notifyListeners();
-  }
-
-  String _position = "Please update the profile";
-  String get position => _position;
-  setPosition(String position) {
-    _position = position;
-    notifyListeners();
-  }
-
-  String _location = "Please update the profile";
-  String get location => _location;
-  setLocation(String location) {
-    _location = location;
+  setDynamicLink(String dynamicLink) {
+    _dynamicLink = dynamicLink;
     notifyListeners();
   }
 
@@ -81,17 +67,48 @@ class QrCodeDataViewModel with ChangeNotifier {
     localStorage.readValue('name').then((value) {
       setName(value);
     });
-    localStorage.readValue('email').then((value) {
-      setEmail(value);
-    });
-    localStorage.readValue('photo').then((value) {
-      setPhoto(value);
-    });
-    localStorage.readValue('position').then((value) {
-      setPosition(value);
-    });
-    localStorage.readValue('location').then((value) {
-      setLocation(value);
-    });
+  }
+
+  bool _getQrDataLoading = false;
+  bool get getQrDataLoading => _getQrDataLoading;
+
+  getQRDataLoading(bool value) {
+    _getQrDataLoading = value;
+    notifyListeners();
+  }
+
+  Future<Map<String, dynamic>> getQrDataLink() async {
+    try {
+      getQRDataLoading(true);
+
+      var data = {'id': '6800b87b4ae12c230f1e126c'};
+
+      log("qr id: $data"); // ✅ Debugging Step
+      final response = await GetQrDataRepository().getQrDataLink(data);
+      log("qr data response: $response"); // ✅ Debugging Step
+      if (response['status'] == 'success') {
+        log(
+          'Dynamic link generated successfully: $response',
+        ); // ✅ Debugging Step
+        setDynamicLink(response['link']);
+        log('Dynamic link: ${response['link']}'); // ✅ Debugging Step
+        log('dynamic link: $dynamicLink'); // ✅ Debugging Step
+      } else {
+        log(
+          'Failed to get qr data: ${response['message']}',
+        ); // ✅ Debugging Step
+        return response;
+      }
+
+      getQRDataLoading(false);
+
+      return response;
+    } catch (e) {
+      log("contact add Error: $e"); // Add this log
+      getQRDataLoading(false);
+      return {"failed": false, "message": e.toString()};
+    } finally {
+      getQRDataLoading(false);
+    }
   }
 }

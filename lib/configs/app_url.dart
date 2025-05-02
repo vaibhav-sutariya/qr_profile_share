@@ -26,6 +26,7 @@ class AppUrl {
   static var getAllContactsEndPoint = '$baseUrl/contacts/contacts';
   static var deleteContactEndPoint = '$baseUrl/contacts/deleteContacts/';
   static var updateUserDataEndPoint = '$baseUrl/users/update-me';
+  static var getQrDataEndPoint = '$baseUrl/users/generate-link';
   static var getUserDataByIdEndPoint = '$baseUrl/users/getOneUser/';
   static var addVehicleEndPoint = '$baseUrl/vehicles/';
   static var getVehiclesEndPoint = '$baseUrl/vehicles/';

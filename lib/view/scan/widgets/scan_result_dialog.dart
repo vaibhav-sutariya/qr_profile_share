@@ -20,12 +20,12 @@ class ScanResultDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log('ScanResultDialog data: $data');
-    final sId = data['id'] ?? 'Unknown ID';
+    final sId = data['_id'] ?? 'Unknown ID';
     final name = data['name'] ?? 'Unknown User';
     final email = data['email'] ?? 'No email provided';
     final location = data['location'] ?? 'Location not available';
     final photo = data['photo'];
-    final userRole = data['position'] ?? 'No role provided';
+    final userRole = data['userRole'] ?? 'No role provided';
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: AppColors.whiteColor,

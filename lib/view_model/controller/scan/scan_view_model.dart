@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_profile_share/configs/utils/utils.dart';
 import 'package:qr_profile_share/model/scan/qr_model.dart';
@@ -16,22 +17,46 @@ class ScanViewModel extends ChangeNotifier {
 
   QrModel? get qrData => _qrModel;
 
-  void setQrData(BuildContext context, String data) {
+  void setQrData(BuildContext context, String data) async {
     _qrModel = QrModel(scannedData: data);
-    final Map<String, dynamic> decodedData =
-        qrData != null ? jsonDecode(qrData!.scannedData) : {};
-    // getUserProfile(context, decodedData['id']);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ScanResultDialog(
-          data: decodedData,
-          onClose: () {
-            Navigator.pop(context);
+
+    try {
+      final Uri uri = Uri.parse(data);
+      final String? encodedLink = uri.queryParameters['link'];
+
+      if (encodedLink == null) {
+        throw Exception("Invalid QR code data. 'link' parameter missing.");
+      }
+
+      final String decodedLink = Uri.decodeFull(encodedLink);
+
+      final response = await http.get(Uri.parse(decodedLink));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> result = jsonDecode(response.body);
+
+        final Map<String, dynamic> userData = result['data']['user'];
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ScanResultDialog(
+              data: userData,
+              onClose: () {
+                Navigator.pop(context);
+              },
+            );
           },
         );
-      },
-    );
+      } else {
+        throw Exception("Failed to fetch profile data");
+      }
+    } catch (e) {
+      print("Error parsing QR code or fetching user data: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+    }
 
     notifyListeners();
   }
@@ -167,7 +192,7 @@ class ScanViewModel extends ChangeNotifier {
         return response;
       }
 
-      if (response['status'] == 'fail') {
+      if (response['error'] == true) {
         final message = response['message'] ?? 'Something went wrong';
         Utils.flushBarErrorMessage(message, context); // show actual message
         return response;

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -16,6 +14,12 @@ class MyQrWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<QrCodeDataViewModel, ProfileSettingViewModel>(
       builder: (context, qrCodedataVM, profileSettingVM, child) {
+        // Replace with your actual domain and parameters
+        final String dynamicLink =
+            qrCodedataVM.dynamicLink.isNotEmpty
+                ? qrCodedataVM.dynamicLink
+                : 'https://randomqr.page.link/?link=https%3A%2F%2Fqr-profile-share-backend.onrender.com%2Fapi%2Fv1%2Fusers%2FgetOneUser%2F6800b87b4ae12c230f1e126c&apn=com.example.qr_profile_share&afl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.quikhitch';
+
         return RepaintBoundary(
           key: context.read<MyQrViewModel>().qrKey,
           child: QrImageView(
@@ -24,14 +28,7 @@ class MyQrWidget extends StatelessWidget {
               eyeShape: QrEyeShape.square,
               color: profileSettingVM.qrColor,
             ),
-            data: jsonEncode({
-              "id": qrCodedataVM.id,
-              "name": qrCodedataVM.name,
-              "email": qrCodedataVM.email,
-              "photo": qrCodedataVM.photo,
-              "position": qrCodedataVM.position,
-              "location": qrCodedataVM.location,
-            }),
+            data: dynamicLink, // Dynamic Link
             version: QrVersions.auto,
             size: getScreenHeight(context) * size,
             embeddedImage:

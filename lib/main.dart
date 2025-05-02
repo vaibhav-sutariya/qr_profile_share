@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +28,14 @@ bool isVisited = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyA4L11t-ZzFGmfx4s016j6SVqNpQ83zqgk",
+      appId: "1:439520334429:android:fd25b7fe49e219c047f3b4",
+      messagingSenderId: "439520334429",
+      projectId: "quickhitch-7347",
+    ),
+  );
   await dotenv.load(fileName: ".env");
   final prefs = await SharedPreferences.getInstance();
   isVisited = prefs.getBool('isOnBoardingVisited') ?? false;

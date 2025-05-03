@@ -9,6 +9,7 @@ import 'package:qr_profile_share/view/contacts/add_new_contact/add_new_contact_s
 import 'package:qr_profile_share/view/onboarding/onboarding_screen.dart';
 import 'package:qr_profile_share/view/profile/edit_profile/edit_profile_screen.dart';
 import 'package:qr_profile_share/view/profile/profile_setting/profile_setting_screen.dart';
+import 'package:qr_profile_share/view/scan/widgets/scanned_result_link_dialogue.dart';
 import 'package:qr_profile_share/view/splash/splash_screen.dart';
 import 'package:qr_profile_share/view_model/controller/profile/user_profile_view_model.dart';
 
@@ -65,6 +66,10 @@ class Routes {
         return slideTransition(ProfileSettingScreen());
       case RoutesName.addNewContactScreen:
         return slideTransition(AddNewContactScreen());
+      case RoutesName.scannedResultLinkDialogue:
+        return slideTransition(
+          ScannedResultLinkDialogue(id: settings.arguments as String),
+        );
 
       case RoutesName.bottomNavBar:
         // Extract the userProfileViewModel from the settings arguments

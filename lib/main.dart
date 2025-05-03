@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/configs/routes/routes.dart';
 import 'package:qr_profile_share/configs/routes/routes_name.dart';
+import 'package:qr_profile_share/view/scan/widgets/scanned_result_link_dialogue.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/forgot_password_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/login_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/signup_view_model.dart';
@@ -36,6 +40,20 @@ void main() async {
       projectId: "quickhitch-7347",
     ),
   );
+
+  final PendingDynamicLinkData? initialLink =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+  if (initialLink != null) {
+    final Uri deepLink = initialLink.link;
+    log('Dynamic Link 1: $deepLink');
+    ScannedResultLinkDialogue(id: deepLink.pathSegments.last);
+  }
+  FirebaseDynamicLinks.instance.onLink.listen((pendingDynamicLinkData) {
+    final Uri deepLink = pendingDynamicLinkData.link;
+    log('Dynamic Link 2: $deepLink');
+    log('Dynamic Link 22: ${deepLink.pathSegments.last}');
+  });
+
   await dotenv.load(fileName: ".env");
   final prefs = await SharedPreferences.getInstance();
   isVisited = prefs.getBool('isOnBoardingVisited') ?? false;

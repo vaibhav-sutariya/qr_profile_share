@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_profile_share/view/scan/widgets/scanned_result_link_dialogue.dart';
 import 'package:qr_profile_share/view_model/services/session_manager/session_controller.dart';
 
 import '../../../configs/routes/routes_name.dart';
@@ -9,23 +11,14 @@ import '../../../configs/routes/routes_name.dart';
 class SplashServices with ChangeNotifier {
   Future<void> checkAuthentication(BuildContext context) async {
     try {
-      await SessionController()
-          .getUserFromPreference(); // Ensure we fetch session data
-      // await userProfileViewModel.getUserProfile().then((value) {
-      //   log("User profile data fetched successfully in splash screen");
-      // }); // Fetch user profile data
-
+      await SessionController().getUserFromPreference();
+      // initDynamicLinks(context);
       log("Retrieved isLogin value: ${SessionController().isLogin}");
 
       Timer(const Duration(seconds: 2), () {
         if (SessionController().isLogin) {
           log("User is logged in, navigating to Home");
-          // QrCodeDataViewModel qrCodeDataViewModel = QrCodeDataViewModel();
 
-          // qrCodeDataViewModel.getData().then((value) {
-          //   log("QR code data fetched successfully in splash screen");
-          //   // Fetch QR code data
-          // }); //
           Navigator.pushNamedAndRemoveUntil(
             context,
             RoutesName.bottomNavBar,
@@ -50,6 +43,45 @@ class SplashServices with ChangeNotifier {
           (route) => false,
         ),
       );
+    }
+  }
+
+  Future<void> handleDynamicLinks(BuildContext context) async {
+    try {
+      final PendingDynamicLinkData? initialLink =
+          await FirebaseDynamicLinks.instance.getInitialLink();
+      if (initialLink != null) {
+        final Uri deepLink = initialLink.link;
+        log('Dynamic Link (cold start): $deepLink');
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showDialog(
+            context: context,
+            builder:
+                (context) =>
+                    ScannedResultLinkDialogue(id: deepLink.pathSegments.last),
+          );
+        });
+      }
+
+      FirebaseDynamicLinks.instance.onLink
+          .listen((dynamicLinkData) {
+            final Uri deepLink = dynamicLinkData.link;
+            log('Dynamic Link (foreground): $deepLink');
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showDialog(
+                context: context,
+                builder:
+                    (context) => ScannedResultLinkDialogue(
+                      id: deepLink.pathSegments.last,
+                    ),
+              );
+            });
+          })
+          .onError((e) {
+            log('Dynamic link failed: $e');
+          });
+    } catch (e) {
+      log('Error handling dynamic link: $e');
     }
   }
 }

@@ -13,4 +13,6 @@ class RoutesName {
   static const String profileSettingsScreen = 'profile_settings_screen';
   static const String nfcShareScreen = 'nfc_share_screen';
   static const String addNewContactScreen = 'add_new_contact_screen';
+  static const String scannedResultLinkDialogue =
+      'scanned_result_link_dialogue';
 }

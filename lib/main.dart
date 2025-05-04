@@ -53,7 +53,8 @@ void main() async {
 
         showDialog(
           context: navigatorKey.currentContext!,
-          builder: (context) => ScannedResultLinkDialogue(id: userId),
+          builder:
+              (context) => ScannedResultLinkDialogue(id: deepLink.toString()),
         );
       }
     }
@@ -68,7 +69,9 @@ void main() async {
 
             showDialog(
               context: navigatorKey.currentContext!,
-              builder: (context) => ScannedResultLinkDialogue(id: userId),
+              builder:
+                  (context) =>
+                      ScannedResultLinkDialogue(id: deepLink.toString()),
             );
           }
         })

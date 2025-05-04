@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_profile_share/configs/utils/utils.dart';
 import 'package:qr_profile_share/model/scan/qr_model.dart';
+import 'package:qr_profile_share/model/users/user_model.dart';
 import 'package:qr_profile_share/repository/scan/add_scan_profile_repository.dart';
 import 'package:qr_profile_share/view/scan/widgets/scan_result_dialog.dart';
 import 'package:qr_profile_share/view_model/services/get_data/get_access_token.dart';
@@ -218,5 +219,21 @@ class ScanViewModel extends ChangeNotifier {
     } finally {
       addUserProfileLoading(false);
     }
+  }
+
+  UserModel? _userMode;
+  UserModel? get userMode => _userMode;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  Future<void> fetchScannedUser(String url) async {
+    _isLoading = true;
+    notifyListeners();
+
+    _userMode = await AddScanProfileRepository().fetchUserProfile(url);
+
+    _isLoading = false;
+    notifyListeners();
   }
 }

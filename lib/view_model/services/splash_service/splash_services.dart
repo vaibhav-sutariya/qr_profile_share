@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_profile_share/view/scan/widgets/scanned_result_link_dialogue.dart';
 import 'package:qr_profile_share/view_model/services/session_manager/session_controller.dart';
 
 import '../../../configs/routes/routes_name.dart';
@@ -46,42 +44,46 @@ class SplashServices with ChangeNotifier {
     }
   }
 
-  Future<void> handleDynamicLinks(BuildContext context) async {
-    try {
-      final PendingDynamicLinkData? initialLink =
-          await FirebaseDynamicLinks.instance.getInitialLink();
-      if (initialLink != null) {
-        final Uri deepLink = initialLink.link;
-        log('Dynamic Link (cold start): $deepLink');
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          showDialog(
-            context: context,
-            builder:
-                (context) =>
-                    ScannedResultLinkDialogue(id: deepLink.pathSegments.last),
-          );
-        });
-      }
+  // Future<void> handleDynamicLinks() async {
+  //   try {
+  //     final PendingDynamicLinkData? initialLink =
+  //         await FirebaseDynamicLinks.instance.getInitialLink();
 
-      FirebaseDynamicLinks.instance.onLink
-          .listen((dynamicLinkData) {
-            final Uri deepLink = dynamicLinkData.link;
-            log('Dynamic Link (foreground): $deepLink');
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              showDialog(
-                context: context,
-                builder:
-                    (context) => ScannedResultLinkDialogue(
-                      id: deepLink.pathSegments.last,
-                    ),
-              );
-            });
-          })
-          .onError((e) {
-            log('Dynamic link failed: $e');
-          });
-    } catch (e) {
-      log('Error handling dynamic link: $e');
-    }
-  }
+  //     if (initialLink != null) {
+  //       final Uri deepLink = initialLink.link;
+  //       debugPrint('Dynamic Link (cold start): $deepLink');
+
+  //       if (deepLink.pathSegments.isNotEmpty) {
+  //         final userId = deepLink.pathSegments.last;
+
+  //         navigatorKey.currentState?.push(
+  //           MaterialPageRoute(
+  //             builder: (_) => DynamicProfileScreen(userId: userId),
+  //           ),
+  //         );
+  //       }
+  //     }
+
+  //     FirebaseDynamicLinks.instance.onLink
+  //         .listen((dynamicLinkData) {
+  //           final Uri deepLink = dynamicLinkData.link;
+  //           debugPrint('Dynamic Link (foreground): $deepLink');
+
+  //           if (deepLink.pathSegments.isNotEmpty) {
+  //             final userId = deepLink.pathSegments.last;
+
+  //             navigatorKey.currentState?.push(
+  //               MaterialPageRoute(
+  //                 builder: (_) => DynamicProfileScreen(userId: userId),
+  //               ),
+  //             );
+  //           }
+  //         })
+  //         .onError((e) {
+  //           debugPrint('Dynamic link error: $e');
+  //         });
+  //   } catch (e) {
+  //     debugPrint('Error handling dynamic link: $e');
+  //   }
+  // }
 }

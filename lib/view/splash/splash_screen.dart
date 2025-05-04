@@ -18,9 +18,9 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     splashServices.checkAuthentication(context);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      splashServices.handleDynamicLinks(context);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   splashServices.handleDynamicLinks();
+    // });
   }
 
   @override

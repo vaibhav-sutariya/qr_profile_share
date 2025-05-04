@@ -15,4 +15,5 @@ class RoutesName {
   static const String addNewContactScreen = 'add_new_contact_screen';
   static const String scannedResultLinkDialogue =
       'scanned_result_link_dialogue';
+  static const String dynamicProfileScreen = 'dynamic_profile_screen';
 }

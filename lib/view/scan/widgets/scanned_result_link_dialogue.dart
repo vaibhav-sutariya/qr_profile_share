@@ -20,6 +20,20 @@ class ScannedResultLinkDialogue extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                'Scanned Result',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+              Text(
+                'User ID: $id',
+                style: TextStyle(fontSize: 18, color: AppColors.secondaryColor),
+              ),
               // Profile Image
               // CircleAvatar(
               //   radius: 50,

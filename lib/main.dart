@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +27,7 @@ import 'package:qr_profile_share/view_model/services/splash_service/splash_servi
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool isVisited = false;
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,18 +40,44 @@ void main() async {
     ),
   );
 
-  final PendingDynamicLinkData? initialLink =
-      await FirebaseDynamicLinks.instance.getInitialLink();
-  if (initialLink != null) {
-    final Uri deepLink = initialLink.link;
-    log('Dynamic Link 1: $deepLink');
-    ScannedResultLinkDialogue(id: deepLink.pathSegments.last);
+  try {
+    final PendingDynamicLinkData? initialLink =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+
+    if (initialLink != null) {
+      final Uri deepLink = initialLink.link;
+      debugPrint('Dynamic Link (cold start): $deepLink');
+
+      if (deepLink.pathSegments.isNotEmpty) {
+        final userId = deepLink.pathSegments.last;
+
+        showDialog(
+          context: navigatorKey.currentContext!,
+          builder: (context) => ScannedResultLinkDialogue(id: userId),
+        );
+      }
+    }
+
+    FirebaseDynamicLinks.instance.onLink
+        .listen((dynamicLinkData) {
+          final Uri deepLink = dynamicLinkData.link;
+          debugPrint('Dynamic Link (foreground): $deepLink');
+
+          if (deepLink.pathSegments.isNotEmpty) {
+            final userId = deepLink.pathSegments.last;
+
+            showDialog(
+              context: navigatorKey.currentContext!,
+              builder: (context) => ScannedResultLinkDialogue(id: userId),
+            );
+          }
+        })
+        .onError((e) {
+          debugPrint('Dynamic link error: $e');
+        });
+  } catch (e) {
+    debugPrint('Error handling dynamic link: $e');
   }
-  FirebaseDynamicLinks.instance.onLink.listen((pendingDynamicLinkData) {
-    final Uri deepLink = pendingDynamicLinkData.link;
-    log('Dynamic Link 2: $deepLink');
-    log('Dynamic Link 22: ${deepLink.pathSegments.last}');
-  });
 
   await dotenv.load(fileName: ".env");
   final prefs = await SharedPreferences.getInstance();
@@ -88,6 +113,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'QR Profile Share',
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.whiteColor,

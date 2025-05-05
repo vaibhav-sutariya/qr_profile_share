@@ -46,7 +46,7 @@ class HomeViewModel extends ChangeNotifier {
       date: 'Mar 15',
       tag: 'Conference',
       imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwiVqpNd0zv349lznWpZI0-KKoEyp-sFiA_g&s', // Use your asset or network image
+          'https://cdn.pixabay.com/photo/2016/11/19/11/11/hands-1838658_1280.jpg', // Use your asset or network image
     ),
     EventModel(
       title: 'Networking Meetup',
@@ -60,7 +60,7 @@ class HomeViewModel extends ChangeNotifier {
       date: 'Mar 15',
       tag: 'Conference',
       imageUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwiVqpNd0zv349lznWpZI0-KKoEyp-sFiA_g&s', // Use your asset or network image
+          'https://cdn.pixabay.com/photo/2016/11/19/11/11/hands-1838658_1280.jpg', // Use your asset or network image
     ),
     EventModel(
       title: 'Networking Meetup',
@@ -77,20 +77,23 @@ class HomeViewModel extends ChangeNotifier {
     ConnectionModel(
       name: 'Sarah Wilson',
       role: 'Product Designer',
-      imageUrl: 'https://randomuser.me/api/portraits/women/1.jpg',
+      imageUrl:
+          'https://cdn.pixabay.com/photo/2016/11/19/11/11/hands-1838658_1280.jpg',
       time: '5m ago',
       isOnline: true,
     ),
     ConnectionModel(
       name: 'Michael Chen',
       role: 'Developer',
-      imageUrl: 'https://randomuser.me/api/portraits/men/2.jpg',
+      imageUrl:
+          'https://cdn.pixabay.com/photo/2016/11/19/11/11/hands-1838658_1280.jpg',
       time: '1h ago',
     ),
     ConnectionModel(
       name: 'Emma Davis',
       role: 'Marketing',
-      imageUrl: 'https://randomuser.me/api/portraits/women/3.jpg',
+      imageUrl:
+          'https://cdn.pixabay.com/photo/2016/11/19/11/11/hands-1838658_1280.jpg',
       time: '2h ago',
     ),
   ];

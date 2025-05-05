@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
@@ -56,7 +57,7 @@ class _DynamicProfileScreenState extends State<DynamicProfileScreen> {
                           backgroundImage:
                               userData.photo != null &&
                                       userData.photo!.isNotEmpty
-                                  ? NetworkImage(userData.photo!)
+                                  ? CachedNetworkImageProvider(userData.photo!)
                                   : const AssetImage(
                                         "assets/images/default_avatar.png",
                                       )

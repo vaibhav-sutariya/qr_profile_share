@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/view_model/controller/profile/update_profile_view_model.dart';
@@ -34,7 +35,7 @@ class ProfilePickerWidget extends StatelessWidget {
               backgroundImage:
                   userViewModel.profileImage != null
                       ? FileImage(userViewModel.profileImage!)
-                      : NetworkImage(
+                      : CachedNetworkImageProvider(
                         userProfileViewModel.userProfile?.data?.user?.photo ??
                             '',
                       ),

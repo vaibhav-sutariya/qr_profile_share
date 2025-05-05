@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/configs/responsive.dart';
@@ -51,7 +52,7 @@ class TopProfileWidget extends StatelessWidget {
               ),
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: NetworkImage(
+                backgroundImage: CachedNetworkImageProvider(
                   data?.photo ??
                       'https://toppng.com/uploads/preview/male-user-filled-icon-man-icon-115533970576b3erfsss1.png',
                 ),

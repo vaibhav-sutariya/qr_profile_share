@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
@@ -71,7 +72,9 @@ class ConnectionCardWidget extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundImage: NetworkImage(connection.imageUrl),
+                backgroundImage: CachedNetworkImageProvider(
+                  connection.imageUrl,
+                ),
               ),
 
               const SizedBox(height: 12),

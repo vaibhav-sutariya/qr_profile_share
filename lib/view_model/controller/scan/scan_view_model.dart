@@ -62,11 +62,6 @@ class ScanViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearData() {
-    _qrModel = null;
-    notifyListeners();
-  }
-
   bool _isProcessing = false;
   final ImagePicker _picker = ImagePicker();
 
@@ -169,13 +164,27 @@ class ScanViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? tags = '';
+  String? get getTags => tags;
+  setTags(String value) {
+    tags = value;
+    notifyListeners();
+  }
+
+  void clearData() {
+    _qrModel = null;
+    tags = null;
+
+    notifyListeners();
+  }
+
   Future<Map<String, dynamic>> addContact(
     String id,
     BuildContext context,
   ) async {
     try {
       addUserProfileLoading(true);
-      final data = {"userId": id};
+      final data = {"userId": id, "tags": getTags};
       log("User ID: $data");
 
       final token = await getAccessToken();
@@ -218,6 +227,7 @@ class ScanViewModel extends ChangeNotifier {
       return {"success": false, "message": e.toString()};
     } finally {
       addUserProfileLoading(false);
+      clearData();
     }
   }
 

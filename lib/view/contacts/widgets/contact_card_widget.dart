@@ -168,43 +168,45 @@ class ContactCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min, // Wrap content
-                          children: [
-                            Icon(
-                              Feather.tag, // Lightning bolt icon
-                              size: getScreenHeight(context) * 0.012,
-                              color: AppColors.whiteColor,
+                contact.tags != null && contact.tags!.isNotEmpty
+                    ? Positioned(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
                             ),
-                            const SizedBox(width: 2),
-                            Text(
-                              contact.tags!,
-                              style: TextStyle(
-                                color: AppColors.whiteColor,
-                                fontSize: getScreenHeight(context) * 0.012,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryColor,
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                          ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min, // Wrap content
+                              children: [
+                                Icon(
+                                  Feather.tag, // Lightning bolt icon
+                                  size: getScreenHeight(context) * 0.012,
+                                  color: AppColors.whiteColor,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  contact.tags!,
+                                  style: TextStyle(
+                                    color: AppColors.whiteColor,
+                                    fontSize: getScreenHeight(context) * 0.012,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+                    )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

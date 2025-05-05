@@ -50,8 +50,6 @@ void main() async {
       log('Dynamic Link (cold start): $deepLink');
 
       if (deepLink.pathSegments.isNotEmpty) {
-        final userId = deepLink.pathSegments.last;
-
         Navigator.pushNamed(
           navigatorKey.currentContext!,
           RoutesName.dynamicProfileScreen,
@@ -66,8 +64,6 @@ void main() async {
           log('Dynamic Link (foreground): $deepLink');
 
           if (deepLink.pathSegments.isNotEmpty) {
-            final userId = deepLink.pathSegments.last;
-
             Navigator.pushNamed(
               navigatorKey.currentContext!,
               RoutesName.dynamicProfileScreen,

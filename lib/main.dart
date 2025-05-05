@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/configs/routes/routes.dart';
 import 'package:qr_profile_share/configs/routes/routes_name.dart';
-import 'package:qr_profile_share/view/scan/widgets/scanned_result_link_dialogue.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/forgot_password_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/login_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/signup_view_model.dart';
@@ -46,15 +47,15 @@ void main() async {
 
     if (initialLink != null) {
       final Uri deepLink = initialLink.link;
-      debugPrint('Dynamic Link (cold start): $deepLink');
+      log('Dynamic Link (cold start): $deepLink');
 
       if (deepLink.pathSegments.isNotEmpty) {
         final userId = deepLink.pathSegments.last;
 
-        showDialog(
-          context: navigatorKey.currentContext!,
-          builder:
-              (context) => ScannedResultLinkDialogue(id: deepLink.toString()),
+        Navigator.pushNamed(
+          navigatorKey.currentContext!,
+          RoutesName.dynamicProfileScreen,
+          arguments: deepLink.toString(),
         );
       }
     }
@@ -62,21 +63,20 @@ void main() async {
     FirebaseDynamicLinks.instance.onLink
         .listen((dynamicLinkData) {
           final Uri deepLink = dynamicLinkData.link;
-          debugPrint('Dynamic Link (foreground): $deepLink');
+          log('Dynamic Link (foreground): $deepLink');
 
           if (deepLink.pathSegments.isNotEmpty) {
             final userId = deepLink.pathSegments.last;
 
-            showDialog(
-              context: navigatorKey.currentContext!,
-              builder:
-                  (context) =>
-                      ScannedResultLinkDialogue(id: deepLink.toString()),
+            Navigator.pushNamed(
+              navigatorKey.currentContext!,
+              RoutesName.dynamicProfileScreen,
+              arguments: deepLink.toString(),
             );
           }
         })
         .onError((e) {
-          debugPrint('Dynamic link error: $e');
+          log('Dynamic link error: $e');
         });
   } catch (e) {
     debugPrint('Error handling dynamic link: $e');

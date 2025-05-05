@@ -46,26 +46,28 @@ class HomeViewModel extends ChangeNotifier {
       date: 'Mar 15',
       tag: 'Conference',
       imageUrl:
-          'https://picsum.photos/400/200?1', // Use your asset or network image
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwiVqpNd0zv349lznWpZI0-KKoEyp-sFiA_g&s', // Use your asset or network image
     ),
     EventModel(
       title: 'Networking Meetup',
       date: 'Apr 05',
       tag: 'Meetup',
-      imageUrl: 'https://picsum.photos/400/200?2',
+      imageUrl:
+          'https://cdn.pixabay.com/photo/2016/11/19/11/11/hands-1838658_1280.jpg',
     ),
     EventModel(
       title: 'Tech Conference',
       date: 'Mar 15',
       tag: 'Conference',
       imageUrl:
-          'https://picsum.photos/400/200?1', // Use your asset or network image
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwiVqpNd0zv349lznWpZI0-KKoEyp-sFiA_g&s', // Use your asset or network image
     ),
     EventModel(
       title: 'Networking Meetup',
       date: 'Apr 05',
       tag: 'Meetup',
-      imageUrl: 'https://picsum.photos/400/200?2',
+      imageUrl:
+          'https://cdn.pixabay.com/photo/2016/11/19/11/11/hands-1838658_1280.jpg',
     ),
   ];
 

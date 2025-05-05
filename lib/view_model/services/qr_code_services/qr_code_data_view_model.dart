@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:qr_profile_share/repository/qr_data/get_qr_data_repository.dart';
+import 'package:qr_profile_share/view_model/services/get_data/get_user_id.dart';
 import 'package:qr_profile_share/view_model/services/storage/local_storage.dart';
 
 class QrCodeDataViewModel with ChangeNotifier {
@@ -62,10 +63,10 @@ class QrCodeDataViewModel with ChangeNotifier {
   Future<void> getData() async {
     LocalStorage localStorage = LocalStorage();
     localStorage.readValue('id').then((value) {
-      setId(value);
+      setId(value ?? "Please update the profile");
     });
     localStorage.readValue('name').then((value) {
-      setName(value);
+      setName(value ?? "Please update the profile");
     });
   }
 
@@ -80,8 +81,9 @@ class QrCodeDataViewModel with ChangeNotifier {
   Future<Map<String, dynamic>> getQrDataLink() async {
     try {
       getQRDataLoading(true);
-
-      var data = {'id': '6800b87b4ae12c230f1e126c'};
+      String id =
+          await getUserId(); // Assuming this function fetches the user ID
+      var data = {'id': id};
 
       log("qr id: $data"); // ✅ Debugging Step
       final response = await GetQrDataRepository().getQrDataLink(data);

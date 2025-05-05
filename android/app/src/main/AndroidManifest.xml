@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
                     android:scheme="https"
-                    android:host="randomqr.page.link/"
+                    android:host="randomqr.page.link"
                     android:pathPrefix="/api/v1/users/getOneUser/"/>
             </intent-filter>
         </activity>

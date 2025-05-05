@@ -38,10 +38,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="quikhitch" android:host="scan"/>
                 <data
                     android:scheme="https"
-                    android:host="https://qr-profile-share-backend.onrender.com"
+                    android:host="randomqr.page.link/"
                     android:pathPrefix="/api/v1/users/getOneUser/"/>
             </intent-filter>
         </activity>

@@ -60,6 +60,7 @@ class ContactData {
   String? userRole;
   String? website;
   String? location;
+  String? tags;
   String? photo;
   String? createdAt;
   String? updatedAt;
@@ -77,6 +78,7 @@ class ContactData {
     this.userRole,
     this.website,
     this.location,
+    this.tags,
     this.photo,
     this.createdAt,
     this.updatedAt,
@@ -98,6 +100,7 @@ class ContactData {
     userRole = json['userRole'];
     website = json['website'];
     location = json['location'];
+    tags = json['tags'];
     photo = json['photo'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -119,6 +122,7 @@ class ContactData {
     data['userRole'] = userRole;
     data['website'] = website;
     data['location'] = location;
+    data['tags'] = tags;
     data['photo'] = photo;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;

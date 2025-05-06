@@ -75,7 +75,7 @@ void main() async {
               isLoggedIn
                   ? RoutesName.dynamicProfileScreen
                   : RoutesName.loginScreen,
-              arguments: isLoggedIn ? deepLink.toString() : null,
+              arguments: isLoggedIn ? deepLink.toString() : deepLink.toString(),
             );
           }
         })

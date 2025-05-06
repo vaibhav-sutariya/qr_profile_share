@@ -180,7 +180,7 @@ class LoginScreen extends StatelessWidget {
                                       loginViewModel.isLoginButtonEnabled
                                           ? loginViewModel.login(
                                             context,
-                                            dynamicLink!,
+                                            dynamicLink ?? '',
                                           )
                                           : Utils.flushBarErrorMessage(
                                             'All fields are required',

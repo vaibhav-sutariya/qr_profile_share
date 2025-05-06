@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_profile_share/configs/components/custom_app_bar.dart';
 import 'package:qr_profile_share/view_model/controller/nfc_provider/nfc_view_model';
 
 class NfcShareScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class NfcShareScreen extends StatelessWidget {
     final nfcViewModel = Provider.of<NFCViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("NFC Reader")),
+      appBar: CustomAppBar(text: "NFC Share", isBackButtonVisible: true),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

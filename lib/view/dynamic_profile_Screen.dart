@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/colors/app_colors.dart';
 import 'package:qr_profile_share/configs/components/custom_app_bar.dart';
 import 'package:qr_profile_share/configs/components/custom_elevated_button.dart';
+import 'package:qr_profile_share/configs/components/custom_text_field.dart';
 import 'package:qr_profile_share/view_model/controller/scan/scan_view_model.dart';
 
 class DynamicProfileScreen extends StatefulWidget {
@@ -118,9 +119,17 @@ class _DynamicProfileScreenState extends State<DynamicProfileScreen> {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 16),
+                        CustomTextField(
+                          onChanged: (value) {
+                            scanVM.setTags(value);
+                          },
+                          icon: Icons.tag,
+                          text: 'Tag the contact',
+                        ),
 
                         const SizedBox(height: 30),
-                        scanVM.isLoading
+                        scanVM.adduserProfileLoading
                             ? CircularProgressIndicator()
                             : CustomElevatedButton(
                               text: 'Add Contact',

@@ -13,10 +13,12 @@ class NFCViewModel extends ChangeNotifier {
       return;
     }
 
-    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-      _nfcData = tag.data.toString();
-      notifyListeners();
-      NfcManager.instance.stopSession();
-    });
+    NfcManager.instance.startSession(
+      onDiscovered: (NfcTag tag) async {
+        _nfcData = tag.data.toString();
+        notifyListeners();
+        NfcManager.instance.stopSession();
+      },
+    );
   }
 }

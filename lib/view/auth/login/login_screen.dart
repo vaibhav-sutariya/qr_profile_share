@@ -12,7 +12,8 @@ import 'package:qr_profile_share/view/auth/widgets/have_account_text.dart';
 import 'package:qr_profile_share/view_model/controller/auth_provider/login_view_model.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final String? dynamicLink;
+  const LoginScreen({super.key, this.dynamicLink});
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +178,10 @@ class LoginScreen extends StatelessWidget {
                                     text: 'Sign In',
                                     onPress: () {
                                       loginViewModel.isLoginButtonEnabled
-                                          ? loginViewModel.login(context)
+                                          ? loginViewModel.login(
+                                            context,
+                                            dynamicLink!,
+                                          )
                                           : Utils.flushBarErrorMessage(
                                             'All fields are required',
                                             context,

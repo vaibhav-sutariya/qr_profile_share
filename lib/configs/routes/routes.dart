@@ -63,7 +63,9 @@ class Routes {
         );
       case RoutesName.loginScreen:
         return MaterialPageRoute(
-          builder: (BuildContext context) => const LoginScreen(),
+          builder:
+              (BuildContext context) =>
+                  LoginScreen(dynamicLink: settings.arguments as String?),
         );
       case RoutesName.signUpScreen:
         return MaterialPageRoute(

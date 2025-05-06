@@ -46,7 +46,10 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> login(BuildContext context) async {
+  Future<Map<String, dynamic>> login(
+    BuildContext context,
+    String dynamicLink,
+  ) async {
     try {
       setLoginLoading(true);
       final data = {"email": email, "password": password};
@@ -62,18 +65,20 @@ class LoginViewModel extends ChangeNotifier {
       );
       await Future.delayed(const Duration(seconds: 1));
       if (SessionController().isLogin) {
-        // QrCodeDataViewModel qrCodeDataViewModel = QrCodeDataViewModel();
-
-        // qrCodeDataViewModel.getData().then((value) {
-        //   log("QR code data fetched successfully in login screen");
-        //   // Fetch QR code data
-        // }); //
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          RoutesName.bottomNavBar,
-
-          (route) => false,
-        );
+        if (dynamicLink.isNotEmpty) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RoutesName.dynamicProfileScreen,
+            (route) => false,
+            arguments: dynamicLink,
+          );
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RoutesName.bottomNavBar,
+            (route) => false,
+          );
+        }
       }
       clearFields();
       return response;

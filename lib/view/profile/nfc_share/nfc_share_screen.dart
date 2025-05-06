@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_profile_share/configs/components/custom_app_bar.dart';
-import 'package:qr_profile_share/view_model/controller/nfc_provider/nfc_view_model';
+import 'package:qr_profile_share/view_model/controller/nfc_provider/nfc_view_model.dart';
 
 class NfcShareScreen extends StatelessWidget {
   const NfcShareScreen({super.key});

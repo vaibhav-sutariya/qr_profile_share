@@ -17,6 +17,7 @@ import 'package:qr_profile_share/view_model/controller/contact/add_contact_view_
 import 'package:qr_profile_share/view_model/controller/contact/contact_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/home/home_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/my_qr/my_qr_view_model.dart';
+import 'package:qr_profile_share/view_model/controller/nfc_provider/nfc_view_model';
 import 'package:qr_profile_share/view_model/controller/profile/profile_setting_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/profile/update_profile_view_model.dart';
 import 'package:qr_profile_share/view_model/controller/profile/user_profile_view_model.dart';
@@ -116,6 +117,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ContactViewModel()),
         ChangeNotifierProvider(create: (_) => ContactViewModel()),
         ChangeNotifierProvider(create: (_) => AddContactViewModel()),
+        ChangeNotifierProvider(create: (_) => NFCViewModel()),
       ],
       child: MaterialApp(
         title: 'QR Profile Share',

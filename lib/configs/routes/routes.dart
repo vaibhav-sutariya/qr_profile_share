@@ -9,6 +9,7 @@ import 'package:qr_profile_share/view/contacts/add_new_contact/add_new_contact_s
 import 'package:qr_profile_share/view/dynamic_profile_Screen.dart';
 import 'package:qr_profile_share/view/onboarding/onboarding_screen.dart';
 import 'package:qr_profile_share/view/profile/edit_profile/edit_profile_screen.dart';
+import 'package:qr_profile_share/view/profile/nfc_share/nfc_share_screen.dart';
 import 'package:qr_profile_share/view/profile/profile_setting/profile_setting_screen.dart';
 import 'package:qr_profile_share/view/scan/widgets/scanned_result_link_dialogue.dart';
 import 'package:qr_profile_share/view/splash/splash_screen.dart';
@@ -75,6 +76,8 @@ class Routes {
         return slideTransition(
           DynamicProfileScreen(userId: settings.arguments as String),
         );
+      case RoutesName.nfcShareScreen:
+        return slideTransition(NfcShareScreen());
 
       case RoutesName.bottomNavBar:
         // Extract the userProfileViewModel from the settings arguments

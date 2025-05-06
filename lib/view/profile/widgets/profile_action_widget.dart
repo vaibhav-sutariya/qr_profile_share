@@ -44,11 +44,7 @@ class ProfileActionWidget extends StatelessWidget {
                   Icons.send_to_mobile_outlined,
                   'NFC Share',
                   () {
-                    Navigator.pushNamed(
-                      context,
-                      RoutesName.nfcShareScreen,
-                      arguments: 'Profile Data to Share',
-                    );
+                    Navigator.pushNamed(context, RoutesName.nfcShareScreen);
                   },
                 ),
                 _buildQuickAction(Icons.shield_outlined, 'Privacy', () {

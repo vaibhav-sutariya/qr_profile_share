@@ -24,6 +24,7 @@ import 'package:qr_profile_share/view_model/controller/scan/scan_view_model.dart
 import 'package:qr_profile_share/view_model/services/bottom_navbar/bottom_navbar_provider.dart';
 import 'package:qr_profile_share/view_model/services/mode_toggle/mode_toggle_view_model.dart';
 import 'package:qr_profile_share/view_model/services/qr_code_services/qr_code_data_view_model.dart';
+import 'package:qr_profile_share/view_model/services/session_manager/session_controller.dart';
 import 'package:qr_profile_share/view_model/services/splash_service/splash_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,15 +46,17 @@ void main() async {
     final PendingDynamicLinkData? initialLink =
         await FirebaseDynamicLinks.instance.getInitialLink();
 
+    final bool isLoggedIn = SessionController().isLogin;
+
     if (initialLink != null) {
       final Uri deepLink = initialLink.link;
       log('Dynamic Link (cold start): $deepLink');
 
       if (deepLink.pathSegments.isNotEmpty) {
-        Navigator.pushNamed(
+        Navigator.pushReplacementNamed(
           navigatorKey.currentContext!,
-          RoutesName.dynamicProfileScreen,
-          arguments: deepLink.toString(),
+          isLoggedIn ? RoutesName.dynamicProfileScreen : RoutesName.loginScreen,
+          arguments: isLoggedIn ? deepLink.toString() : null,
         );
       }
     }
@@ -63,11 +66,15 @@ void main() async {
           final Uri deepLink = dynamicLinkData.link;
           log('Dynamic Link (foreground): $deepLink');
 
+          final bool isLoggedIn = SessionController().isLogin;
+
           if (deepLink.pathSegments.isNotEmpty) {
-            Navigator.pushNamed(
+            Navigator.pushReplacementNamed(
               navigatorKey.currentContext!,
-              RoutesName.dynamicProfileScreen,
-              arguments: deepLink.toString(),
+              isLoggedIn
+                  ? RoutesName.dynamicProfileScreen
+                  : RoutesName.loginScreen,
+              arguments: isLoggedIn ? deepLink.toString() : null,
             );
           }
         })

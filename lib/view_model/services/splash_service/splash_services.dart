@@ -43,47 +43,4 @@ class SplashServices with ChangeNotifier {
       );
     }
   }
-
-  // Future<void> handleDynamicLinks() async {
-  //   try {
-  //     final PendingDynamicLinkData? initialLink =
-  //         await FirebaseDynamicLinks.instance.getInitialLink();
-
-  //     if (initialLink != null) {
-  //       final Uri deepLink = initialLink.link;
-  //       debugPrint('Dynamic Link (cold start): $deepLink');
-
-  //       if (deepLink.pathSegments.isNotEmpty) {
-  //         final userId = deepLink.pathSegments.last;
-
-  //         navigatorKey.currentState?.push(
-  //           MaterialPageRoute(
-  //             builder: (_) => DynamicProfileScreen(userId: userId),
-  //           ),
-  //         );
-  //       }
-  //     }
-
-  //     FirebaseDynamicLinks.instance.onLink
-  //         .listen((dynamicLinkData) {
-  //           final Uri deepLink = dynamicLinkData.link;
-  //           debugPrint('Dynamic Link (foreground): $deepLink');
-
-  //           if (deepLink.pathSegments.isNotEmpty) {
-  //             final userId = deepLink.pathSegments.last;
-
-  //             navigatorKey.currentState?.push(
-  //               MaterialPageRoute(
-  //                 builder: (_) => DynamicProfileScreen(userId: userId),
-  //               ),
-  //             );
-  //           }
-  //         })
-  //         .onError((e) {
-  //           debugPrint('Dynamic link error: $e');
-  //         });
-  //   } catch (e) {
-  //     debugPrint('Error handling dynamic link: $e');
-  //   }
-  // }
 }

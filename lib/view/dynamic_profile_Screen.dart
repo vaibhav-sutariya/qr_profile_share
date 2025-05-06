@@ -131,55 +131,6 @@ class _DynamicProfileScreenState extends State<DynamicProfileScreen> {
                                 scanVM.addContact(userData.sId!, context);
                               },
                             ),
-
-                        // Buttons
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //   children: [
-                        //     ElevatedButton.icon(
-                        //       onPressed: () {
-                        //         log(
-                        //           'Close button pressed for user: ${userData.sId}',
-                        //         );
-                        //         Navigator.pop(context);
-                        //       },
-                        //       icon: const Icon(AntDesign.closecircleo),
-                        //       label: const Text("Close"),
-                        //       style: ElevatedButton.styleFrom(
-                        //         backgroundColor: AppColors.redColor,
-                        //         foregroundColor: AppColors.whiteColor,
-                        //         iconColor: AppColors.whiteColor,
-                        //         iconSize: 14,
-                        //         shape: RoundedRectangleBorder(
-                        //           borderRadius: BorderRadius.circular(12),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     scanVM.adduserProfileLoading
-                        //         ? CircularProgressIndicator(
-                        //           color: AppColors.primaryColor,
-                        //         )
-                        //         : ElevatedButton.icon(
-                        //           onPressed: () async {
-                        //             log(
-                        //               'Add button pressed for user: ${userData.sId}',
-                        //             );
-                        //             scanVM.addContact(userData.sId!, context);
-                        //           },
-                        //           icon: const Icon(AntDesign.pluscircleo),
-                        //           label: const Text("Add"),
-                        //           style: ElevatedButton.styleFrom(
-                        //             backgroundColor: AppColors.primaryColor,
-                        //             foregroundColor: AppColors.whiteColor,
-                        //             iconColor: AppColors.whiteColor,
-                        //             iconSize: 14,
-                        //             shape: RoundedRectangleBorder(
-                        //               borderRadius: BorderRadius.circular(12),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //   ],
-                        // ),
                       ],
                     ),
           ),

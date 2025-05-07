@@ -83,7 +83,7 @@ void main() async {
           log('Dynamic link error: $e');
         });
   } catch (e) {
-    debugPrint('Error handling dynamic link: $e');
+    log('Error handling dynamic link: $e');
   }
 
   await dotenv.load(fileName: ".env");

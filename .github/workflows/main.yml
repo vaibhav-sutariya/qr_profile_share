@@ -71,7 +71,7 @@ jobs:
         run: flutter build apk --release --split-per-abi
 
       - name: Create Shorebird Patch
-        run: shorebird patch android --verbose
+        run: shorebird patch android
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 

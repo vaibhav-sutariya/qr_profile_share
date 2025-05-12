@@ -57,7 +57,7 @@ jobs:
       - name: Authenticate Shorebird in CI
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-        run: shorebird login:ci
+        run: echo "$SHOREBIRD_TOKEN" | shorebird login:ci
         shell: bash
 
       - name: Shorebird Patch Release

@@ -50,21 +50,17 @@ jobs:
           .\install.ps1
           echo "$env:USERPROFILE\.shorebird\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - name: Add Shorebird to PATH
-        run: echo "$env:USERPROFILE\.shorebird\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        shell: powershell
-
       - name: Check Shorebird Version
         run: shorebird --version
-        shell: powershell
+        shell: bash
 
-      - name: Authenticate Shorebird
-        run: shorebird login --token ${{ secrets.SHOREBIRD_TOKEN }}
-        shell: powershell
+      - name: Authenticate Shorebird in CI
+        run: echo "${{ secrets.SHOREBIRD_TOKEN }}" | shorebird login:ci
+        shell: bash
 
       - name: Shorebird Patch Release
         run: shorebird release android --patch
-        shell: powershell
+        shell: bash
 
       - name: Upload to GitHub Releases
         uses: ncipollo/release-action@v1

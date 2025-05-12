@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # Updated to latest version for reliability
+        uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v4 # Updated to latest version
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
@@ -26,13 +26,18 @@ jobs:
         with:
           channel: stable
           architecture: x64
-          # Optionally specify a Flutter version compatible with Shorebird
-          # flutter-version: '3.24.0' # Uncomment and set a specific version if needed
 
-      - name: Verify Flutter and Shorebird compatibility
+      - name: Verify Flutter setup
         run: |
           flutter doctor
           flutter --version
+
+      - name: Check and update dependencies
+        run: |
+          flutter pub get
+          dart pub outdated # Check for outdated dependencies
+          # Optionally upgrade dependencies if safe
+          # flutter pub upgrade --dry-run # Uncomment to test upgrades
 
       - name: Create .env file
         run: |
@@ -44,21 +49,15 @@ jobs:
       - name: Install Shorebird CLI
         run: |
           curl --proto '=https' --tlsv1.2 -sSL https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash
-          export PATH="$HOME/.shorebird/bin:$PATH"
-          echo "$HOME/.shorebird/bin" >> $GITHUB_PATH
+          export PATH="$HOME/.shorebird/bin:$PATH" # Add to current session
+          echo "$HOME/.shorebird/bin" >> $GITHUB_PATH # Add for subsequent steps
           shorebird --version # Verify installation
 
       - name: Authenticate Shorebird
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
         run: |
-          shorebird login:ci --token "$SHOREBIRD_TOKEN"
-
-      - name: Initialize Shorebird (if not already initialized)
-        run: |
-          if [ ! -f shorebird.yaml ]; then
-            shorebird init
-          fi
+          shorebird login:ci --token "$SHOREBIRD_TOKEN" --verbose
 
       - name: Build APK
         run: flutter build apk --release --split-per-abi

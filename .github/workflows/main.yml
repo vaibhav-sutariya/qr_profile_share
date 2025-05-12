@@ -42,10 +42,10 @@ jobs:
       - name: Build APK
         run: flutter build apk --release --split-per-abi
 
-      - name: Install Shorebird CLI
+      - name: Install Shorebird CLI (GitHub Mirror)
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri https://get.shorebird.dev -OutFile install.ps1
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/shorebirdtech/shorebird/main/install.ps1 -OutFile install.ps1
           powershell -ExecutionPolicy Bypass -File install.ps1
           echo "$env:USERPROFILE\.shorebird\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 

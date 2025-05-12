@@ -38,7 +38,7 @@ jobs:
         run: |
           curl -sSL https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash
           echo "$HOME/.shorebird/bin" >> $GITHUB_PATH
-          export PATH="$HOME/.shorebird/bin:$PATH"
+          echo "export PATH=$HOME/.shorebird/bin:\$PATH" >> $GITHUB_ENV
 
       - name: Authenticate Shorebird (CI token)
         run: echo "${{ secrets.SHOREBIRD_TOKEN }}" | shorebird login --ci

@@ -34,16 +34,17 @@ jobs:
           echo "CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
-      - name: Build APK
-        run: flutter build apk --release --split-per-abi
-
       - name: Install Shorebird CLI
         run: |
           curl -sSL https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash
           echo "$HOME/.shorebird/bin" >> $GITHUB_PATH
+          export PATH="$HOME/.shorebird/bin:$PATH"
 
       - name: Authenticate Shorebird (CI token)
-        run: echo "${{ secrets.SHOREBIRD_TOKEN }}" | shorebird login:ci
+        run: echo "${{ secrets.SHOREBIRD_TOKEN }}" | shorebird login --ci
+
+      - name: Build APK
+        run: flutter build apk --release --split-per-abi
 
       - name: Shorebird Patch Release
         run: shorebird release android --patch

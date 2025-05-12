@@ -46,18 +46,15 @@ jobs:
           echo "CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
-      - name: Install Shorebird CLI
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSL https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh | bash
-          export PATH="$HOME/.shorebird/bin:$PATH" # Add to current session
-          echo "$HOME/.shorebird/bin" >> $GITHUB_PATH # Add for subsequent steps
-          shorebird --version # Verify installation
+      # Use the setup-shorebird action to configure Shorebird
+      - name: 🐦 Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+        with:
+          cache: true # Optionally cache your Shorebird installation
 
-      - name: Authenticate Shorebird
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-        run: |
-          shorebird login:ci --token "$SHOREBIRD_TOKEN" --verbose
+      # Now we're able to use Shorebird CLI in our workflow
+      - name: 🚀 Use Shorebird
+        run: shorebird --version
 
       - name: Build APK
         run: flutter build apk --release --split-per-abi

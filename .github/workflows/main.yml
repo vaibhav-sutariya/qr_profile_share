@@ -41,7 +41,7 @@ jobs:
           echo "PATH=/home/runner/.config/shorebird/bin:$PATH" >> $GITHUB_ENV
 
       - name: Authenticate Shorebird (CI token)
-        run: echo "${{ secrets.SHOREBIRD_TOKEN }}" | shorebird login --ci
+        run: echo "${{ secrets.SHOREBIRD_TOKEN }}" | shorebird login --provider google
 
       - name: Build APK
         run: flutter build apk --release --split-per-abi

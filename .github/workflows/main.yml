@@ -21,11 +21,22 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Cache Flutter SDK
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.HOME }}/.pub-cache
+            /opt/hostedtoolcache/flutter
+          key: flutter-${{ runner.os }}-3.24.3-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            flutter-${{ runner.os }}-3.24.3-
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           architecture: x64
+          cache: true
 
       - name: Verify Flutter setup
         run: |
@@ -59,8 +70,28 @@ jobs:
       - name: Build APK
         run: flutter build apk --release --split-per-abi
 
+      - name: Check for version or asset changes
+        if: github.event_name == 'push'
+        id: version_check
+        run: |
+          # Check pubspec.yaml version
+          CURRENT_VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          git checkout HEAD^ --quiet
+          PREVIOUS_VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}' || echo "")
+          # Check for changes in .env or NOTICES.Z
+          ASSET_CHANGES=$(git diff HEAD^ HEAD --name-only | grep -E '(.env|NOTICES.Z)' || echo "")
+          git checkout - --quiet
+          if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ] || [ -n "$ASSET_CHANGES" ]; then
+            echo "Version or assets changed (.env or NOTICES.Z). Creating release."
+            echo "create_release=true" >> $GITHUB_OUTPUT
+          else
+            echo "No version or asset changes. Creating patch."
+            echo "create_release=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create Shorebird Patch
-        run: shorebird patch android
+        if: github.event_name == 'push' && steps.version_check.outputs.create_release == 'false' && github.ref == 'refs/heads/develop'
+        run: shorebird patch android --verbose
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 

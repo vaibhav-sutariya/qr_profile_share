@@ -71,7 +71,6 @@ jobs:
         run: flutter build apk --release --split-per-abi
 
       - name: Create Shorebird Patch
-        if: github.event_name == 'push' && steps.version_check.outputs.create_release == 'false' && github.ref == 'refs/heads/develop'
         run: shorebird patch android --verbose
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}

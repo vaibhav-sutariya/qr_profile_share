@@ -20,42 +20,44 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set Up Java
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
           java-version: "17"
 
-      - name: Set Up Flutter
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
           architecture: x64
 
-      - name: Create .env File
+      - name: Create .env file from Secrets
         run: |
           echo "WEB_CLIENT_ID=${{ secrets.WEB_CLIENT_ID }}" >> .env
           echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env
           echo "CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
-      - name: Build APK (Split per ABI)
+      - name: Build Flutter APK
         run: flutter build apk --release --split-per-abi
 
       - name: Install Shorebird CLI
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://get.shorebird.dev | bash
           echo "$HOME/.shorebird/bin" >> $GITHUB_PATH
+          echo "PATH=$HOME/.shorebird/bin:$PATH" >> $GITHUB_ENV
+
+      - name: Verify Shorebird Installation
+        run: shorebird --version
 
       - name: Authenticate with Shorebird
-        run: |
-          shorebird login --token ${{ secrets.SHOREBIRD_TOKEN }}
+        run: shorebird login --token ${{ secrets.SHOREBIRD_TOKEN }}
 
       - name: Shorebird Patch Release
-        run: |
-          shorebird release android --patch
+        run: shorebird release android --patch
 
-      - name: GitHub Release (Attach APK)
+      - name: Push APK to GitHub Releases
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/release/*.apk"

@@ -59,11 +59,6 @@ jobs:
       - name: Build APK
         run: flutter build apk --release --split-per-abi
 
-      - name: Create Shorebird Release
-        run: shorebird release android --artifact apk
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-
       - name: Create Shorebird Patch
         run: shorebird patch android
         env:

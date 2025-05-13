@@ -46,9 +46,7 @@ jobs:
       - name: Check and update dependencies
         run: |
           flutter pub get
-          dart pub outdated # Check for outdated dependencies
-          # Optionally upgrade dependencies if safe
-          # flutter pub upgrade --dry-run # Uncomment to test upgrades
+          dart pub outdated
 
       - name: Create .env file
         run: |
@@ -57,25 +55,28 @@ jobs:
           echo "CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
-      # Use the setup-shorebird action to configure Shorebird
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
-          cache: true # Optionally cache your Shorebird installation
+          cache: true
 
-      # Now we're able to use Shorebird CLI in our workflow
       - name: 🚀 Use Shorebird
         run: shorebird --version
 
+      # Only build APK on main/master branch pushes
       - name: Build APK
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         run: flutter build apk --release --split-per-abi
 
+      # Create Shorebird patch for all pushes
       - name: Create Shorebird Patch
         run: shorebird patch android --verbose
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
+      # Only upload APK on main/master branch pushes
       - name: Upload to GitHub Releases
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/release/*.apk"

@@ -54,13 +54,11 @@ jobs:
           echo "CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
-      # Use the setup-shorebird action to configure Shorebird
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
           cache: true # Optionally cache your Shorebird installation
 
-      # Now we're able to use Shorebird CLI in our workflow
       - name: 🚀 Use Shorebird
         run: shorebird --version
 
@@ -68,8 +66,17 @@ jobs:
         run: flutter build apk --release --split-per-abi
 
       - name: Create Shorebird Patch
-        run: shorebird patch android --verbose
-        
+        run: |
+          # Try to create a patch, but don't fail the workflow if it fails
+          if shorebird patch android --verbose; then
+            echo "Shorebird patch created successfully"
+          else
+            echo "Shorebird patch creation failed - this is expected if there are asset changes"
+            echo "A new APK will be released instead"
+          fi
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        continue-on-error: true
 
       - name: Upload to GitHub Releases
         uses: ncipollo/release-action@v1

@@ -63,13 +63,6 @@ jobs:
       - name: 🚀 Use Shorebird
         run: shorebird --version
 
-      - name: Initialize Shorebird App
-        run: |
-          # Initialize Shorebird in the project
-          shorebird init --verbose
-        env:
-          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-
       - name: Check for asset changes
         id: check_assets
         run: |

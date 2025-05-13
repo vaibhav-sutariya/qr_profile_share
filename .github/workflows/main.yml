@@ -54,6 +54,14 @@ jobs:
           echo "CLOUDINARY_UPLOAD_PRESET=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
 
+      - name: Setup Android
+        run: |
+          flutter config --android-sdk $ANDROID_HOME
+          flutter doctor --android-licenses
+          cd android
+          ./gradlew wrapper
+          cd ..
+
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
@@ -65,7 +73,7 @@ jobs:
       - name: Initialize Shorebird App
         run: |
           # Initialize Shorebird in the project
-          shorebird init
+          shorebird init --verbose
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 

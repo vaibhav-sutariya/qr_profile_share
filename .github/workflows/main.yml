@@ -57,7 +57,7 @@ jobs:
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
         with:
-          cache: true # Optionally cache your Shorebird installation
+          cache: true
 
       - name: 🚀 Use Shorebird
         run: shorebird --version
@@ -65,18 +65,23 @@ jobs:
       - name: Build APK
         run: flutter build apk --release --split-per-abi
 
-      - name: Create Shorebird Patch
+      - name: Check for asset changes
+        id: check_assets
         run: |
-          # Try to create a patch, but don't fail the workflow if it fails
-          if shorebird patch android --verbose; then
-            echo "Shorebird patch created successfully"
+          # Check if .env or NOTICES.Z files have changed
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "assets/.*\.env\|NOTICES\.Z"; then
+            echo "has_asset_changes=true" >> $GITHUB_OUTPUT
+            echo "Asset changes detected, skipping Shorebird patch"
           else
-            echo "Shorebird patch creation failed - this is expected if there are asset changes"
-            echo "A new APK will be released instead"
+            echo "has_asset_changes=false" >> $GITHUB_OUTPUT
+            echo "No asset changes detected, proceeding with Shorebird patch"
           fi
+
+      - name: Create Shorebird Patch
+        if: steps.check_assets.outputs.has_asset_changes == 'false'
+        run: shorebird patch android --verbose
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
-        continue-on-error: true
 
       - name: Upload to GitHub Releases
         uses: ncipollo/release-action@v1

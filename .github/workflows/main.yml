@@ -62,6 +62,16 @@ jobs:
       - name: 🚀 Use Shorebird
         run: shorebird --version
 
+      - name: Initialize Shorebird App
+        run: |
+          # Check if app exists, if not create it
+          if ! shorebird apps list | grep -q "qr_profile_share"; then
+            echo "Creating new Shorebird app..."
+            shorebird apps create --name "qr_profile_share"
+          fi
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
       - name: Check for asset changes
         id: check_assets
         run: |

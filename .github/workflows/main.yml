@@ -75,7 +75,7 @@ jobs:
           fi
 
       - name: Build with Shorebird
-        run: shorebird build apk --release
+        run: shorebird release android
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 

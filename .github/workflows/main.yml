@@ -62,9 +62,6 @@ jobs:
       - name: 🚀 Use Shorebird
         run: shorebird --version
 
-      - name: Build APK
-        run: flutter build apk --release --split-per-abi
-
       - name: Check for asset changes
         id: check_assets
         run: |
@@ -76,6 +73,11 @@ jobs:
             echo "has_asset_changes=false" >> $GITHUB_OUTPUT
             echo "No asset changes detected, proceeding with Shorebird patch"
           fi
+
+      - name: Build with Shorebird
+        run: shorebird build apk --release
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
 
       - name: Create Shorebird Patch
         if: steps.check_assets.outputs.has_asset_changes == 'false'
